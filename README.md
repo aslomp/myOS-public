@@ -15,3 +15,7 @@ This repository documents the design and observed implementation of myOS for tec
 The Windows driver host, Linux driver hosting, shared IPC model, native VFS and Android boot progress receive particular attention in the source-checked story.
 
 *Reviewed on 9 October 2026 against myOS master, the Android development branch and the Windows-driver development branch. Not every box in an illustrative infographic is a working feature.*
+
+## Native scheduler and SMP
+
+The kernel's independent execution engine is documented in [**One Scheduler, Multiple Operating-System Environments**](docs/11-one-scheduler-multiple-environments.md), with a [detailed layered scheduler diagram](diagrams/native-scheduler-smp.svg) and dated, workload-based measurements. It explains how the same scheduling mechanism serves Linux, Windows, native driver hosts and the Android development environment.
