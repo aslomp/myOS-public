@@ -78,3 +78,34 @@ sequenceDiagram
 ```
 
 The challenge is not just moving bytes between processes: it is correctly implementing cancellation, deadlines, error translation, lifetime, completion and backpressure without duplicating native transports. Reviews of the Windows session and Android regression work show why those details can determine system-wide progress.
+
+---
+
+## Transport and semantic fidelity
+
+An endpoint transports a message or stream of bytes; it does not define the meaning of the bytes. The NT ALPC contract additionally includes connection lifecycle, handles, access control, server context and response correlation. Binder includes Android-specific object identity, transaction relationships and security identity. Linux IPC covers different combinations of byte streams, records and readiness. Native reuse is sound only when these higher-level semantics are preserved.
+
+### Round-trip integrity
+
+```text
+  Original client                Native kernel             Host / original server
+  ---------------                -------------             ----------------------
+  Request + identity ----------> authorized endpoint
+                                  stable message lifetime
+                                  queue and wake ----------> inspect client identity
+                                                          -> service request
+  Await response <------------- reply correlation <-------- result
+  Timeout / exit --------------> cancellation / closure --> observable peer failure
+```
+
+### Backpressure and deadlines
+
+A fixed-size queue can provide predictable memory usage, but only if a full queue has defined blocking, failure or retry behavior. Expanding a queue without understanding production and consumption can mask a wakeup bug. Conversely, an unbounded queue may turn congestion into uncontrolled memory growth. For Windows service initialization, failure to preserve ALPC delivery and correct wakeups can manifest as a timeout in an unrelated higher-level component.
+
+### Identity is not a formatted name
+
+Windows object names, Linux PIDs and Android binder handles are references under different naming rules. A native object must not be mistaken for a textual pathname. Reuse after termination, duplicated handles, inherited rights and remote process inspection all depend on stable underlying identity.
+
+### Shared memory versus copying
+
+One memory object can be mapped in several address spaces, while each owner still has independent rights. The performance benefit depends on size, cache behavior, mapping cost, pinning and synchronization. The source zero-copy audit reports existing shared-object use in several protocols but does not establish a universal zero-copy path or a measured break-even point. 'Zero copy' must therefore be scoped to a specific measured operation.
