@@ -56,3 +56,37 @@ The documented design includes address-space protections and mitigation work, se
 ## Current risks
 
 The Android branch audit identifies pending environment-isolation issues involving writable machine-wide configuration, some globally visible metadata, incomplete peer-domain checks for selected devices, and unverified regression behavior. These are material integration risks, not generic theoretical caveats. The kernel should be described as architecturally security-conscious, **not certified secure**.
+
+---
+
+## Capability and memory authority in depth
+
+A native resource has an identity and lifecycle independent of any environment. Its handle confers a specific set of operations; possession of a copied identifier or an operating-system-specific name is not, by itself, authorization. When a resource is shared, the question is whether its rights were deliberately delegated.
+
+### Kernel memory versus driver-accessible memory
+
+```text
+       Ring-3 driver                 Native kernel                Hardware
+       -------------                 -------------                --------
+       requests a claim ----------> validates device owner
+       requests mapped pages -----> checks handle + rights
+                                     pins allowed pages
+                                     programs IOMMU domain -----> DMA translation
+       receives device address <--- authorized mapping
+       submits hardware work -----------------------------------> reads/writes
+       closes or terminates ------> unmaps, releases claim -----> DMA blocked
+```
+
+IOMMU enforcement is crucial because otherwise a device can perform DMA independently of the CPU's process page tables. The smallest hardware isolation unit may be a *group*, not one PCI function. Members of a group can potentially access the group's mappings even if different driver processes own those members. Software ownership and hardware separation therefore require different claims and threat assessments.
+
+### Scheduling, waiting and completion
+
+The native scheduler decides when threads run; native waits and endpoints communicate *why* a thread can proceed. A Linux futex, an NT wait and an Android scheduling requirement may use shared infrastructure but still need distinct return semantics. Lost wakeups, stale completion identity and incorrect cancellation can deadlock original service infrastructures long before visible applications appear.
+
+### Mandatory access control
+
+Android's original SELinux policy is enforced through its Linux-facing security semantics while generic authority remains native. SELinux labels and domain decisions are not a replacement for capabilities, nor may capability possession silently defeat a mandatory policy where the Android contract requires it. The Android audit documents open isolation and label-correctness issues; these are operational boundaries that need tests with hostile or malformed peers.
+
+### Mitigation expectations
+
+Address-space isolation, CPU mitigations, W^X policy, memory lifetime, service privilege reduction and IOMMU protection are distinct dimensions. None implies all others. Validation should explicitly include unauthorized DMA, permission escalation through handle transfer, namespace escape attempts and device-owner death, rather than only confirming that successful requests work.
