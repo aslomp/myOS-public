@@ -80,3 +80,9 @@ Public architecture documentation should use explicit labels:
 An engineering infographic illustrates relationships. It is not a substitute for this evidence record. The correct public story presents **what has been built, how the parts cooperate, what has been observed, and where the evidence stops**.
 
 For a broader source-to-documentation check, see [Architecture coverage review](19-architecture-coverage-review.md).
+
+## 9. Intentional policy bounds versus accidental implementation limits
+
+The architecture distinguishes three kinds of boundary. Policy limits deliberately constrain resource use and define a recoverable result. Protocol bounds follow from a particular published or versioned interface. Implementation limits are arbitrary internal array or pool sizes and must not accidentally define what an otherwise generic mechanism is capable of doing.
+
+The engineering rule is to replace accidental limits with lifecycle-managed storage, not merely to increase a hard-coded capacity. The same principle applies to message queues, native service calls, network transactions and process bookkeeping. New allocations must have a correct owner and release path; exceeding a deliberate policy limit must be observable to the caller.
