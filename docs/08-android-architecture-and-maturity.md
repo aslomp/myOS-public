@@ -86,3 +86,33 @@ The branch audit flags unresolved or insufficiently validated boundaries involvi
 6. Repeated tests under enforcing SELinux, including negative cross-environment isolation cases.
 
 **Conclusion:** the third-environment architecture is materially implemented and early boot progress is demonstrated, but Android desktop and application compatibility remain **unfinished integration goals**.
+
+---
+
+## Android branch: deeper system integration
+
+![Android architecture infographic](../diagrams/android-execution.svg)
+
+### Image and boot ownership
+
+The branch inventories a prebuilt 64-bit AOSP image with platform and vendor partitions. The original Android kernel is not used. Instead, native myOS services expose the block and filesystem surfaces required by the AOSP ramdisk and partition layout. EROFS, metadata, extended attributes and security labels matter because original AOSP init and dynamic linking depend on the installed image's exact structure.
+
+### SELinux as an end-to-end property
+
+The observed enforcement milestone means the original policy was loaded and enforcing at that stage of startup. It does **not** guarantee correct labeling and access decisions for every subsequent memfd, device node, binder peer or virtual filesystem. These are precisely the areas where the audit identifies incomplete proof or behavior.
+
+### Binder and process identity
+
+Binder is not just a queue carrying serialized messages. It includes reference-counted remote objects, caller identity, thread scheduling interactions and transaction lifetime. Mapping this onto native IPC requires keeping Android-visible semantics while honoring native environment and capability boundaries.
+
+### Networking and eBPF
+
+The observed bpfloader failure blocks later startup dependencies. The Android design aims to run original AOSP eBPF objects and project network policy onto shared native mechanisms, but the audit states that successful original program load and execution had not been proven. A JIT-capable code path must not be confused with validated eBPF behavior; interpreter and JIT safety require distinct evidence.
+
+### Display integration and authority
+
+The branch's planned graphics chain uses original SurfaceFlinger and DRM hardware composer, a virtual output, a display bridge and a Wayland presenter. Android composition is not replaced by an ad hoc myOS compositor. GPU ownership and display authority stay native; the Android environment sees an appropriate virtual card. The display chain was not boot-demonstrated in the audited run.
+
+### Acceptance checklist
+
+The next meaningful capability claim requires proof of original init and policy enforcement **plus** the original framework process chain, then a visible interactive app lifecycle. Linux and Windows regression must remain green at each step. This makes the third environment an integration test of the whole operating system, not a standalone demo.
