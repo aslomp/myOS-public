@@ -62,3 +62,37 @@ In the reviewed 9 October Android audit, enforcing SELinux and a set of original
 ## General design implication
 
 Boot correctness should be measured as an explicit dependency graph and verified transitions, not simply as elapsed time until the first shell, first Windows service or first Android process. The isolation of each environment must remain intact during boot and during service failure.
+
+---
+
+## Boot as a dependency graph, not a stopwatch
+
+Startup is correct when every essential resource and service becomes available after its prerequisites are satisfied and no unrelated environment is able to prevent progress. A serial log may show the order in which messages were emitted rather than the true dependency order. Boot analysis should distinguish device discovery, asynchronous probing, provider registration, runtime initialization and the point an application becomes usable.
+
+### Example service chain
+
+```text
+ UEFI -> native kernel -> core services
+                             |
+           +-----------------+-------------------+
+           |                 |                   |
+       driver manager     file providers      process launcher
+           |                 |                   |
+       block & network -- usable volumes ---- Linux environment
+           |                 |                   |
+       display/input --------+-------------- Windows services
+                                             |
+                                      Android init (branch)
+                                             |
+                                 original policy and APEX
+                                             |
+                                   framework (not proven)
+```
+
+### Failure containment
+
+If a user-space driver dies, the device claim and outstanding queue work must become invalid in a controlled order. If a Windows service fails, its dependents must see accurate states and transport closure. If Android startup exits, its namespaces, mounts, device access and resource groups must be disposed of without disturbing Linux or Windows.
+
+### Observable gates
+
+Boot reports should use explicit checkpoints: native kernel ready, storage mounted, driver services registered, Linux userspace operational, Windows service milestones, Android SELinux enforcing, Android network initialization, Android framework and interactive app. Avoid collapsing these into a single unqualified claim that an operating system 'boots'.
