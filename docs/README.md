@@ -1,52 +1,55 @@
-# myOS — Technical documentation
+# myOS — Public Technical Architecture
 
-**Start here: [One Kernel, Several Operating-System Worlds](10-myOS-the-system-behind-the-interfaces.md).**
+**One independent native kernel. Multiple operating-system execution environments.**
 
-This is the primary English-language narrative. It walks through the architectural illustrations in the repository root and explains what the reviewed source and recorded acceptance work actually demonstrate. It also identifies where the illustrations contain examples, untested contracts or aspirational coverage.
+The documentation is written in English for operating-system engineers, platform architects and technically experienced readers. It explains mechanisms, architectural boundaries, real workload evidence and known limitations **without source-code listings**.
 
-For subsystem detail, continue with the chapters below.
+## Start here
 
-This documentation explains **how myOS works and why its architecture is different**, without publishing source code or implementation listings. It is intended for operating-system engineers, infrastructure engineers, platform architects and other technical readers.
+**[One Kernel, Several Operating-System Worlds](10-myOS-the-system-behind-the-interfaces.md)** is the central illustrated narrative. It explains the root architecture PNGs in an intentional order, then distinguishes implementation, demonstrated workloads and development-branch progress.
 
-## Reading guide
+**[Architecture Coverage Review](19-architecture-coverage-review.md)** checks the publication against the complete 83-section master architecture record, mapping subject areas to chapters and identifying outstanding detailed coverage.
 
-1. [System architecture](01-system-architecture.md) — the single-kernel model and separation of responsibilities.
-2. [Execution environments](02-execution-environments.md) — how Linux, Windows and Android software can share one native operating system.
-3. [Native kernel and security](03-native-kernel-and-security.md) — process identity, memory, IPC, authority and IOMMU isolation.
-4. [Drivers, storage, networking and display](04-devices-storage-and-network.md) — the hardware and service architecture.
-5. [Validation and roadmap](05-validation-and-roadmap.md) — independently distinguishable capabilities, observations and remaining work.
-6. [Boot and service lifecycle](06-boot-and-service-lifecycle.md) — initialization, driver readiness and environment startup.
-7. [IPC, identity and shared resources](07-ipc-identity-and-shared-resources.md) — the common object model beneath distinct operating-system conventions.
-8. [Android architecture and maturity](08-android-architecture-and-maturity.md) — the development branch, original AOSP components and measured boot status.
+## Core technical chapters
 
-All diagrams use GitHub-rendered Mermaid. They are conceptual architecture diagrams, not internal class or function diagrams.
+1. [System architecture](01-system-architecture.md) — the native kernel and the responsibility boundaries.
+2. [Execution environments](02-execution-environments.md) — original Linux, Microsoft Windows and AOSP user spaces.
+3. [Native kernel and security](03-native-kernel-and-security.md) — common objects, IPC, memory, capabilities and DMA.
+4. [Drivers, storage, networking and display](04-devices-storage-and-network.md) — shared device and service paths.
+5. [Validation and status](05-validation-and-roadmap.md) — evidence levels, workload validation and implementation limitations.
+6. [Boot and service lifecycle](06-boot-and-service-lifecycle.md) — native initialization, service startup and failure handling.
+7. [IPC, identity and shared resources](07-ipc-identity-and-shared-resources.md) — message transports, waits, lifetime and authority.
+8. [Android architecture and maturity](08-android-architecture-and-maturity.md) — development branch and actual AOSP milestones.
+9. [Windows driver runtime](09-windows-driver-runtime.md) — WDM execution and original Microsoft-driver limitations.
+10. [Complete illustrated myOS story](10-myOS-the-system-behind-the-interfaces.md) — an integrated public architecture explanation.
+11. [Native scheduler and SMP](11-one-scheduler-multiple-environments.md) — per-CPU runqueues, waits, timing and measured costs.
 
-**Source review:** myOS master and `claude/android-x86-64-native-624c9f` as inspected on 9 October 2026. The Android branch represents development work, not features merged into master. Tested evidence and design ambitions are separated throughout.
+## Deep-dive coverage added from the complete architecture record
+
+12. [Kernel security, memory and native authority](12-kernel-security-memory-and-authority.md) — address isolation, mitigations, rights and resource groups.
+13. [Native networking, containers and resource groups](13-networking-containers-and-resource-groups.md) — packet dataplane, Linux network conventions, namespaces and cgroup v2.
+14. [Ring-3 services, registry and boot policy](14-user-space-system-services-and-registry.md) — native service calls, supervision, registry consistency and persistence.
+15. [VFS interception and cross-environment file notifications](15-vfs-interception-and-file-notifications.md) — one change-event source, Linux inotify and Windows directory changes.
+16. [Boot, executable loading and platform integration](16-boot-loading-and-platform-foundations.md) — early native boot, capability grants, graphics/input and host ports.
+17. [Storage correctness and persistence](17-storage-correctness-and-persistence.md) — block boundaries, GPT, ext4, journals, page cache and ring-3 providers.
+18. [Testing, observability and architecture governance](18-testing-observability-and-architecture-discipline.md) — regression, instrumentation, classified limits and technical debt.
+19. [Architecture coverage review](19-architecture-coverage-review.md) — completeness assessment and remaining deep-detail gaps.
 
 ## Illustrated architecture plates
 
-The repository also includes detailed, independently viewable vector diagrams. These complement (rather than replace) the Mermaid process and interaction diagrams in the chapters.
+These layered vector illustrations complement the existing PNGs in the repository root. The PNGs illustrate conceptual relationships; their captions and the related chapters explain the exact current maturity and evidence boundaries.
 
-- [Complete system architecture](../diagrams/system-architecture.svg)
-- [Driver management and hardware authority](../diagrams/driver-architecture.svg)
+- [Native system architecture](../diagrams/system-architecture.svg)
+- [Driver management and hardware](../diagrams/driver-architecture.svg)
+- [Windows driver runtime](../diagrams/windows-driver-runtime.svg)
 - [Storage and asynchronous I/O](../diagrams/storage-io-architecture.svg)
-- [Android integration and evidence status](../diagrams/android-execution.svg)
+- [Native scheduler and SMP](../diagrams/native-scheduler-smp.svg)
+- [Android execution integration](../diagrams/android-execution.svg)
 
-The illustrated plates use a layered, color-coded documentation style. Unlike a generic flowchart, they group participating components by responsibility and show the interfaces between execution environments, native mechanisms and services.
+Mermaid interaction diagrams are also embedded in selected chapters. Neither type of diagram is a substitute for current source and validated test evidence.
 
-## How to interpret the diagrams
+## Source and review scope
 
-A box shows an architectural responsibility, not necessarily a separate kernel module or process. A line indicates conceptual dependency or authority flow and is not proof that the depicted subsystem currently passes an end-to-end acceptance test. The Android diagrams explicitly mark the branch's incomplete framework and graphics acceptance. For current implementation details and open questions, read each corresponding chapter's evidence and limitations.
+The master architecture was reviewed on 9 October 2026 alongside `claude/android-x86-64-native-624c9f` and `claude/windows-fltmgr-cpp-driver-071154`. Development branches are not automatically features present in master. Where a subsystem is implemented but lacks a reported end-to-end test, the documentation says so.
 
-
-9. [Windows driver-host implementation](09-windows-driver-runtime.md) — tested WDM execution, native-backed AFD/TCPIP and boundaries of original Microsoft driver support.
-
-![Windows driver-host architecture](../diagrams/windows-driver-runtime.svg)
-
-## Native scheduling and SMP
-
-**[One Scheduler, Multiple Operating-System Environments](11-one-scheduler-multiple-environments.md)** explains the native execution model in depth: per-CPU scheduling, round-robin fairness with bounded wakeup preference, work stealing, balancing, interruptible waits, tickless idle, deadlines, safe thread retirement, CPU-state switching and historical measured performance.
-
-![myOS native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
-
-The diagram is an evidence-oriented illustrated plate in the same layered style as the other root architecture infographics. It explicitly distinguishes the implemented scheduler policy from capabilities that are **not** proven, such as NUMA-aware initial placement, CPU hotplug and complete Windows priority-class scheduling.
+The public chapters are intended as **architecture explanations**, not a second source-code reference manual, not proof of universal Linux/Windows/Android compatibility, and not a claim that every architecture decision has equal public depth.
