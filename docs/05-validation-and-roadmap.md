@@ -53,3 +53,49 @@ The Android audit explicitly reports that the branch had no green full-regressio
 The strongest aspect of myOS is architectural coherence: the machine remains owned by one kernel, while the operating-system contracts and driver runtimes are separable. The primary challenge is not adding another compatibility API in isolation; it is preserving this shared model while proving all three execution environments can coexist under realistic workloads.
 
 This document does **not** assert formal security certification, complete Windows support, general Android application compatibility or readiness for general-purpose production deployment.
+
+---
+
+## Engineering acceptance methodology
+
+Compatibility claims need a chain of independently repeatable evidence:
+
+```text
+  Design invariant
+       |
+  Unit / kernel subsystem tests
+       |
+  Real original binary or device workload
+       |
+  Failure and restart injection
+       |
+  Cross-environment concurrency / isolation
+       |
+  Repeated runs across CPU counts and platforms
+       |
+  Public statement of what was actually observed
+```
+
+### Interpreting measured progress
+
+An *implemented* subsystem has a corresponding design and implementation path. A *tested* subsystem has one or more direct tests. A *workload-demonstrated* subsystem has executed a relevant original program or driven hardware in a real scenario. A *system-validated* subsystem must additionally survive regression, concurrency and failure scenarios. These are separate milestones.
+
+### Validation matrix
+
+| Dimension | Minimum representative evidence |
+|---|---|
+| Scheduler and wait | Multicore wakeup, migration, cancellation and process-exit stress |
+| Filesystem and storage | Metadata-heavy workloads, writeback, flush, unmount, read-only providers |
+| Driver model | Real device, failure/restart, ownership release, DMA isolation |
+| Linux personality | Original applications, shell, desktop and container/network workloads |
+| Windows personality | Original Microsoft process startup, service dependencies, RPC, device functionality |
+| Android branch | Original boot, enforced MAC, APEX, network initialization, framework, graphical app |
+| Coexistence | Parallel environments plus boundary abuse and resource exhaustion |
+
+### Material unresolved integration risks
+
+At the reviewed point, the Android audit reports absent green full regressions and a boot stop in network initialization. The Windows original driver-host model has outstanding integration with the driver-specific NT contracts. Generic IPC readiness and completion work remains subject to specific verification criteria, and storage/caching reviews identify edge-case debt. Public status descriptions must keep these limitations attached to any performance or compatibility claims.
+
+### Roadmap principle
+
+Prioritize foundational correctness and cross-environment regression ahead of accumulating features. One correct native primitive improves all environments; an expedient per-environment duplicate imposes long-term semantic and maintenance cost.
