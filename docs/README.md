@@ -1,4 +1,10 @@
-# myOS — Public technical documentation
+# myOS — Technical documentation
+
+**Start here: [One Kernel, Several Operating-System Worlds](10-myOS-the-system-behind-the-interfaces.md).**
+
+This is the primary English-language narrative. It walks through the architectural illustrations in the repository root and explains what the reviewed source and recorded acceptance work actually demonstrate. It also identifies where the illustrations contain examples, untested contracts or aspirational coverage.
+
+For subsystem detail, continue with the chapters below.
 
 This documentation explains **how myOS works and why its architecture is different**, without publishing source code or implementation listings. It is intended for operating-system engineers, infrastructure engineers, platform architects and other technical readers.
 
