@@ -1,13 +1,17 @@
-# myOS — Technical architecture
+# myOS — One Kernel, Several Operating-System Worlds
 
-myOS is an independently developed operating system with one native kernel and multiple operating-system execution environments. The project explores how original Linux, Windows and Android user-space components can operate on shared native processes, memory, IPC, storage, networking and devices—without running three separate kernels.
+myOS is an independently developed operating system for x86-64. A single native kernel provides processes, memory, IPC, storage, networking and hardware authority. Linux and Windows execution environments run original software on that foundation; a separate Android development branch is bringing original AOSP user space onto the same architecture.
 
-**[Read the English technical documentation](docs/README.md)**
+**[Read the complete, source-checked architecture story](docs/10-myOS-the-system-behind-the-interfaces.md)** — a continuous technical explanation of the diagrams, the design decisions, original workload evidence and known implementation limits.
 
-The documentation is written for technically experienced readers. It contains architecture explanations, cross-subsystem diagrams, security boundaries, observed capabilities and explicit limitations, without source-code listings.
+![myOS complete system architecture](myOS%20Complete%20System%20Architecture%20Diagram.png)
 
-> Documentation reflects the reviewed myOS master architecture and the development branch `claude/android-x86-64-native-624c9f` on 9 October 2026. A development implementation is not treated as a validated feature.
+For detailed technical chapters, start at the [documentation index](docs/README.md).
 
-## Documentation objective
+## Why this repository exists
 
-Provide a complete public-facing architectural explanation of myOS, illustrate relationships between systems with diagrams, and avoid disclosing source code. Keep observations, implementation state and design goals clearly distinguished.
+This repository documents the design and observed implementation of myOS for technical readers without publishing source code. Diagrams explain responsibilities; the accompanying text distinguishes implemented and demonstrated features from development work and unfinished integration.
+
+The Windows driver host, Linux driver hosting, shared IPC model, native VFS and Android boot progress receive particular attention in the source-checked story.
+
+*Reviewed on 9 October 2026 against myOS master, the Android development branch and the Windows-driver development branch. Not every box in an illustrative infographic is a working feature.*
