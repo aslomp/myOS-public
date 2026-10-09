@@ -42,3 +42,11 @@ A box shows an architectural responsibility, not necessarily a separate kernel m
 9. [Windows driver-host implementation](09-windows-driver-runtime.md) — tested WDM execution, native-backed AFD/TCPIP and boundaries of original Microsoft driver support.
 
 ![Windows driver-host architecture](../diagrams/windows-driver-runtime.svg)
+
+## Native scheduling and SMP
+
+**[One Scheduler, Multiple Operating-System Environments](11-one-scheduler-multiple-environments.md)** explains the native execution model in depth: per-CPU scheduling, round-robin fairness with bounded wakeup preference, work stealing, balancing, interruptible waits, tickless idle, deadlines, safe thread retirement, CPU-state switching and historical measured performance.
+
+![myOS native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
+
+The diagram is an evidence-oriented illustrated plate in the same layered style as the other root architecture infographics. It explicitly distinguishes the implemented scheduler policy from capabilities that are **not** proven, such as NUMA-aware initial placement, CPU hotplug and complete Windows priority-class scheduling.
