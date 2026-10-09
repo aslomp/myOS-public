@@ -99,3 +99,8 @@ At the reviewed point, the Android audit reports absent green full regressions a
 ### Roadmap principle
 
 Prioritize foundational correctness and cross-environment regression ahead of accumulating features. One correct native primitive improves all environments; an expedient per-environment duplicate imposes long-term semantic and maintenance cost.
+
+
+## Windows kernel-driver hosting — separate reviewed branch
+
+Branch `claude/windows-fltmgr-cpp-driver-071154` contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and own tcpip.sys/afd.sys code with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The reviewed evidence does **not** establish working original Microsoft fltmgr.sys or general Windows inbox-driver support. See [driver evidence](09-windows-driver-runtime.md).
