@@ -59,3 +59,15 @@ Documented QEMU/OVMF poweroff and reboot behavior is a real validation milestone
 The kernel provides *the authority to construct an operating system*, not the implementation of every possible runtime, device protocol or policy. Each additional execution environment should require a richer adapter, not another physical-machine owner.
 
 The service manifest and its upgrade rules complete this picture: required native system services must be installed and started consistently, rather than existing only in a development boot configuration.
+
+## 8. One boot screen across ownership changes
+
+The architecture has a shared boot-status model that begins when UEFI presents an initial display and continues across bootloader, kernel and ring-3 display-service ownership. Progress represents **observed milestones**, not elapsed time or a guessed percent complete. The model is monotonic and works when storage, networking and other initialization steps overlap.
+
+Rendering stays with whichever component currently controls the display. The system does not introduce a separate all-purpose graphics stack merely to draw a splash screen. The handover happens when the relevant user environment becomes ready or the first display client actually presents a frame; an application that attaches but never renders must not erase the boot display prematurely. A panic can transfer the console back to fault reporting.
+
+## 9. Hypervisor host ports and the guest agent
+
+A virtual machine can expose named host communication ports without making the operating-system kernel understand the hypervisor's higher-level protocol. myOS has a **transport-neutral host-port abstraction** using shared byte rings and event notification. A ring-3 VirtIO serial driver can publish such ports, while the Linux personality presents the conventional character devices expected by an original QEMU guest-agent process.
+
+The host-port mechanism belongs to native user-space services and drivers; the Linux device naming belongs to the Linux personality. The design has host protocol tests and a named guest-agent acceptance path. This distinction is another concrete example of original software consuming native mechanisms without becoming the machine's hardware owner.
