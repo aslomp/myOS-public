@@ -93,3 +93,9 @@ Those are meaningful cross-subsystem tests, but they do not demonstrate every Ku
 ## 9. Architectural takeaway
 
 The network design is important because it prevents the Linux personality from accidentally becoming the network owner merely because k3s was the demanding first consumer. Network-domain identity, filtering, resource rights, device transfer and flow state are native. Linux, Windows and Android-facing conventions can be supported **without duplicating the network stack**.
+
+## 10. A ring-3 Linux network-control service
+
+The latest implementation record describes moving significant Linux netfilter request translation into a native user-space service. Linux socket semantics and administrative permission checks stay with the Linux-facing adapter; the native network core remains the authoritative owner of packet filters and flow state. The translation service handles the Linux-specific request vocabulary using the shared service-call mechanism, without receiving unrestricted network authority.
+
+This is a stronger separation than an in-kernel Linux-only translator: the control-plane adapter is isolated while the generic dataplane remains shared. Dedicated tests are documented, but coverage of every network-control extension is not implied.
