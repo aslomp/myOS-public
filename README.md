@@ -19,3 +19,12 @@ The Windows driver host, Linux driver hosting, shared IPC model, native VFS and 
 ## Native scheduler and SMP
 
 The kernel's independent execution engine is documented in [**One Scheduler, Multiple Operating-System Environments**](docs/11-one-scheduler-multiple-environments.md), with a [detailed layered scheduler diagram](diagrams/native-scheduler-smp.svg) and dated, workload-based measurements. It explains how the same scheduling mechanism serves Linux, Windows, native driver hosts and the Android development environment.
+
+## Complete architecture coverage
+
+The public chapters have now been reviewed against the complete master architecture record (83 main sections). The review found and addressed missing subjects including native security and memory authority, container networking, system-service calls, the Windows registry, boot policy, filesystem interception and cross-environment notifications, storage durability and technical validation.
+
+- [Architecture coverage audit and remaining gaps](docs/19-architecture-coverage-review.md)
+- [Full documentation index](docs/README.md)
+
+The expanded writing covers every major architectural domain at a public explanatory level, but it is **not a complete source-level specification or a new independent acceptance test**. Feature status remains grounded in documented evidence.
