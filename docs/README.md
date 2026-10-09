@@ -16,3 +16,18 @@ This documentation explains **how myOS works and why its architecture is differe
 All diagrams use GitHub-rendered Mermaid. They are conceptual architecture diagrams, not internal class or function diagrams.
 
 **Source review:** myOS master and `claude/android-x86-64-native-624c9f` as inspected on 9 October 2026. The Android branch represents development work, not features merged into master. Tested evidence and design ambitions are separated throughout.
+
+## Illustrated architecture plates
+
+The repository also includes detailed, independently viewable vector diagrams. These complement (rather than replace) the Mermaid process and interaction diagrams in the chapters.
+
+- [Complete system architecture](../diagrams/system-architecture.svg)
+- [Driver management and hardware authority](../diagrams/driver-architecture.svg)
+- [Storage and asynchronous I/O](../diagrams/storage-io-architecture.svg)
+- [Android integration and evidence status](../diagrams/android-execution.svg)
+
+The illustrated plates use a layered, color-coded documentation style. Unlike a generic flowchart, they group participating components by responsibility and show the interfaces between execution environments, native mechanisms and services.
+
+## How to interpret the diagrams
+
+A box shows an architectural responsibility, not necessarily a separate kernel module or process. A line indicates conceptual dependency or authority flow and is not proof that the depicted subsystem currently passes an end-to-end acceptance test. The Android diagrams explicitly mark the branch's incomplete framework and graphics acceptance. For current implementation details and open questions, read each corresponding chapter's evidence and limitations.
