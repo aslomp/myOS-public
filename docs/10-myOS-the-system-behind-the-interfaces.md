@@ -32,6 +32,12 @@ The same distinction governs system services. Hardware-independent coordination 
 
 This creates a demanding engineering problem. The common mechanism must be strong enough to support the semantics required by each environment, including cancellation, error behavior, rights transfer, deadlines and object lifetimes. Merely sharing the happy-path data transfer is insufficient.
 
+### One shared scheduler beneath every environment
+
+This common execution model has its own detailed engineering story: [**One Scheduler, Multiple Operating-System Environments**](11-one-scheduler-multiple-environments.md). Every Linux thread, original Windows service thread, native driver-host worker and Android-development-branch thread ultimately uses the same native SMP scheduling machinery. The implementation has per-CPU ready queues, timed preemption, bounded wakeup preference, idle-time work stealing, periodic balancing, a shared wait/wake mechanism, tickless idle and explicit thread-lifecycle safeguards. The dated Proxmox/k3s baseline provides measured CPU costs while keeping those distinct from wake-to-run latency. The article also identifies features not presently proven, including general CPU hotplug, NUMA-aware initial placement and complete Windows priority-class semantics.
+
+![Native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
+
 ## 3. Linux is a real workload, not just an executable-loader demonstration
 
 The Linux environment uses native myOS processes and memory while exposing the Linux contracts expected by ELF applications. The implementation includes extensive file, process, memory, socket, synchronization, namespace and system-information functionality. Linux-oriented views such as process information and system statistics can be constructed from native state rather than becoming the machine's only authoritative representation.
