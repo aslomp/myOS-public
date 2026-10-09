@@ -31,3 +31,8 @@ The illustrated plates use a layered, color-coded documentation style. Unlike a 
 ## How to interpret the diagrams
 
 A box shows an architectural responsibility, not necessarily a separate kernel module or process. A line indicates conceptual dependency or authority flow and is not proof that the depicted subsystem currently passes an end-to-end acceptance test. The Android diagrams explicitly mark the branch's incomplete framework and graphics acceptance. For current implementation details and open questions, read each corresponding chapter's evidence and limitations.
+
+
+9. [Windows driver-host implementation](09-windows-driver-runtime.md) — tested WDM execution, native-backed AFD/TCPIP and boundaries of original Microsoft driver support.
+
+![Windows driver-host architecture](../diagrams/windows-driver-runtime.svg)
