@@ -202,3 +202,9 @@ That is what the diagrams describe. The source review shows how much of that ide
 ---
 
 *Review method:* The architecture and claims above were cross-checked against the native kernel and service responsibilities, VFS and filesystem-provider documentation, asynchronous I/O and IOMMU design, original Linux-driver-host records, Windows ALPC and original-service startup analysis, the Windows WDM-host and network-driver acceptance records, and the Android development branch audit. Source was inspected; no fresh all-subsystem boot or hardware acceptance suite was executed specifically for this publication. The narrative deliberately avoids source listings and does not redistribute external operating-system components.
+
+## Further engineering depth and completeness review
+
+The complete architecture record contains additional important decisions beyond the overview above. The public deep dives now address [kernel memory and security](12-kernel-security-memory-and-authority.md), [networking and container isolation](13-networking-containers-and-resource-groups.md), [native service calls and Windows registry persistence](14-user-space-system-services-and-registry.md), [VFS interception and Linux/Windows notifications](15-vfs-interception-and-file-notifications.md), [bootstrap, executable loading and platform services](16-boot-loading-and-platform-foundations.md), [ext4/storage correctness](17-storage-correctness-and-persistence.md), and [testing and architecture governance](18-testing-observability-and-architecture-discipline.md).
+
+For a topic-by-topic cross-check against the source's **83 main architecture sections**, see the [architecture coverage review](19-architecture-coverage-review.md). Some domains remain summarized rather than reproduced as exhaustive implementation specifications.
