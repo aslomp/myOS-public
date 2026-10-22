@@ -2,7 +2,7 @@
 
 **A technical story of the architecture, the engineering decisions and the functionality demonstrated so far.**
 
-*Source review: myOS master, the Android development branch claude/android-x86-64-native-624c9f and the Windows-driver branch claude/windows-fltmgr-cpp-driver-071154; 9 October 2026. The accompanying illustrations are conceptual diagrams, not test reports. This publication contains no source code.*
+*Review date: 9 October 2026. The accompanying illustrations are conceptual diagrams, not test reports. This publication contains no source code.*
 
 ## 1. The idea: an operating system beneath the interfaces
 
