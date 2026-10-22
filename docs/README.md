@@ -50,6 +50,6 @@ Mermaid interaction diagrams are also embedded in selected chapters. Neither typ
 
 ## Source and review scope
 
-The master architecture was reviewed on 9 October 2026 alongside `claude/android-x86-64-native-624c9f` and `claude/windows-fltmgr-cpp-driver-071154`. Development branches are not automatically features present in master. Where a subsystem is implemented but lacks a reported end-to-end test, the documentation says so.
+**Review date:** 9 October 2026. The documentation separates implemented components from demonstrated end-to-end behavior and identifies where validation is still missing.
 
 The public chapters are intended as **architecture explanations**, not a second source-code reference manual, not proof of universal Linux/Windows/Android compatibility, and not a claim that every architecture decision has equal public depth.
