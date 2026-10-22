@@ -1,6 +1,6 @@
 # Windows drivers on myOS — verified architecture and scope
 
-**Review scope:** source branch claude/windows-fltmgr-cpp-driver-071154, commit 42785b21717803277cf4b8dbb40c30b6c2086242, inspected 9 October 2026. The branch is separate from master. This review examined source documents and acceptance checks; it did not execute QEMU independently.
+**Review date:** 9 October 2026. This review considered implementation evidence and recorded acceptance checks; it did not execute QEMU independently.
 
 ![Windows driver host architecture](../diagrams/windows-driver-runtime.svg)
 
