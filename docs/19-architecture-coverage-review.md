@@ -1,16 +1,16 @@
-# Architecture Coverage Review — myOS master
+# Architecture Coverage Review — myOS implementation
 
-**Audit of the public documentation against the complete master architecture record**
+**Audit of the public documentation against the complete architecture review**
 
 *Reviewed: 9 October 2026. This is an assessment of public documentation coverage, not an independent execution of every test.*
 
 ## Executive result
 
-**The original public documentation did not cover the complete architecture.** It explained the strongest system-level themes—one native kernel, Linux and Windows personalities, an Android development branch, user-mode drivers, native storage, IPC and scheduling—but omitted or underexplained major architectural decisions.
+**The original public documentation did not cover the complete architecture.** It explained the strongest system-level themes—one native kernel, Linux and Windows personalities, an Android development effort, user-mode drivers, native storage, IPC and scheduling—but omitted or underexplained major architectural decisions.
 
 This review led to added public chapters on native security and memory authority, networking and containers, ring-3 system services and registry persistence, VFS interception and change notification, native boot and platform integration, storage correctness, and engineering validation.
 
-The expanded publication now gives a technical reader an entry point into **every major architectural domain** covered by the master architecture record. That is not the same as reproducing all 83 decisions in equal implementation detail: the master record includes historical milestones, accepted decisions, measurements, alternative designs, limitations and some explicitly proposed work.
+The expanded publication now gives a technical reader an entry point into **every major architectural domain** covered by the architecture review. That is not the same as reproducing all design decisions in equal implementation detail: the engineering review includes historical milestones, accepted decisions, measurements, alternative designs, limitations and some explicitly proposed work.
 
 ## Coverage map
 
@@ -59,7 +59,7 @@ The status labels below indicate *documentation depth*, not whether every featur
 
 The root PNG illustrations are architectural explanations, not an accurate Boolean compatibility matrix. Their contents must be read with the documented evidence qualifications:
 
-1. **Original Microsoft Filter Manager:** a WDK-built or own filter manager is not equivalent to Microsoft's original `fltmgr.sys` executing successfully. This remains unproven in the reviewed branch evidence.
+1. **Original Microsoft Filter Manager:** a WDK-built or own filter manager is not equivalent to Microsoft's original `fltmgr.sys` executing successfully. This remains unproven in the reviewed implementation evidence.
 2. **General Windows driver support:** WDM image hosting and real IRP tests are demonstrated; universal NT inbox driver, WDF, filesystem, USB and graphics driver operation is not.
 3. **Fully unified filesystem caching:** a generic cache and shared file-backed objects exist, but some mmap/file-cache paths can still occupy separate frames.
 4. **All filesystem formats:** ext4 and selected ring-3 read-only providers have evidence. Named formats elsewhere in a conceptual storage diagram are not automatically implemented.
@@ -82,7 +82,7 @@ Several mechanisms deserve to be mentioned alongside scheduler, storage, IPC and
 
 ## Remaining depth gaps
 
-The expanded documentation **does not reproduce every line of the 83-section source record**. That would produce another internal implementation manual and would conflict with the public repository's purpose.
+The expanded documentation **does not reproduce every line of the comprehensive source record**. That would produce another internal implementation manual and would conflict with the public repository's purpose.
 
 Material next-level areas, should more public depth be required, include:
 
