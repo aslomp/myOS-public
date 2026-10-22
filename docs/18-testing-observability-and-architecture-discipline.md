@@ -2,7 +2,7 @@
 
 **How myOS evaluates mechanisms without confusing a design decision with a working subsystem**
 
-*Reviewed against myOS master architecture, its test-architecture and lock-ordering records, its measured performance reports and the stated technical-debt process. This chapter discusses current engineering practices, not an independent test certification.*
+*Reviewed against myOS implementation architecture, its test-architecture and lock-ordering records, its measured performance reports and the stated technical-debt process. This chapter discusses current engineering practices, not an independent test certification.*
 
 ## 1. Three separate forms of evidence
 
@@ -74,7 +74,7 @@ Public architecture documentation should use explicit labels:
 | Tested | A named test has exercised that mechanism |
 | Workload-demonstrated | Real original software or a device was observed exercising it |
 | End-to-end validated | The documented complete acceptance path passed at a named revision |
-| Development branch only | The change is not necessarily included in mainline |
+| Development work not yet integrated | The change is not necessarily included in mainline |
 | Open / not established | No evidence was found for the stronger claim |
 
 An engineering infographic illustrates relationships. It is not a substitute for this evidence record. The correct public story presents **what has been built, how the parts cooperate, what has been observed, and where the evidence stops**.
