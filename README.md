@@ -46,6 +46,8 @@ The design emphasizes kernel independence, architectural consistency and reuse o
 
 ## Engineering progress
 
+**[Implementation update — 22 October 2026](docs/05-validation-and-roadmap.md#implementation-update--22-october-2026):** a dated technical-status update for Windows execution, NDIS and IPC, distinguishing implemented mechanisms from independently validated behavior.
+
 myOS is an active engineering project, not a finished general-purpose operating system.
 
 Documented development and validation include:

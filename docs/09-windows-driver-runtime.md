@@ -74,3 +74,9 @@ The project should not present a broad list of Windows inbox drivers, KMDF/UMDF 
 ## Sources
 
 The review used the private myOS branch's Windows driver ABI audit, Windows driver documentation, Windows-driver README, WDK build report and driver-host acceptance script. Historical design sections remain in some of these documents, so later implementation and measured-status sections take precedence.
+
+## NDIS status — 22 October 2026
+
+The current implementation includes Windows NDIS miniport compatibility over native device and networking mechanisms. Windows-visible adapter and statistics interfaces are separate from execution of an original miniport binary.
+
+A recorded QEMU test dated 16 October 2026 used the original Intel e1000e Windows driver. It reported a bound device, a 1 Gbit/s link, four successful ping replies and 11 passing NIC acceptance checks. These are results for that particular tested configuration, not a claim of universal driver compatibility or a new acceptance run.

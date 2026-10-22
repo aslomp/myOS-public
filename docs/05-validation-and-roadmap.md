@@ -104,3 +104,11 @@ Prioritize foundational correctness and cross-environment regression ahead of ac
 ## Windows kernel-driver hosting — separate reviewed branch
 
 Branch `claude/windows-fltmgr-cpp-driver-071154` contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and own tcpip.sys/afd.sys code with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The reviewed evidence does **not** establish working original Microsoft fltmgr.sys or general Windows inbox-driver support. See [driver evidence](09-windows-driver-runtime.md).
+
+## Implementation update — 22 October 2026
+
+This update supplements the 9 October architecture review. The current implementation contains PE32 and PE32+ parsing, Windows module loading, WOW64-related process and thread support, Windows NDIS miniport compatibility, and ALPC transport integration with shared native mechanisms. Code presence does not by itself establish complete functional compatibility.
+
+The recorded 16 October NDIS test of an original Windows network driver demonstrated a bound device, link detection and four successful ping replies, with 11 reported acceptance checks. The current implementation has not been independently retested for this documentation update.
+
+Full compatibility and regression status must be established through separate dated acceptance tests; historical test results should not be interpreted as results from the current revision.
