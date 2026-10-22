@@ -1,6 +1,6 @@
 # Android on myOS: architecture and demonstrated maturity
 
-**Development branch:** `claude/android-x86-64-native-624c9f`  
+**Review date:** 9 October 2026  
 **Review basis:** Android architecture audit dated 9 October 2026
 
 ## Objective
