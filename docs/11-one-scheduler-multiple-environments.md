@@ -2,13 +2,13 @@
 
 **The native execution engine of myOS — architecture, synchronization, multicore behavior and measured cost**
 
-*Source review: myOS master on 9 October 2026. The measurements below come from a documented 1 October 2026 Proxmox experiment, not a benchmark rerun for this article. The Android and Windows-driver development branches are discussed as execution-environment integrations, not as claims of full application compatibility.*
+*Source review: myOS implementation on 9 October 2026. The measurements below come from a documented 1 October 2026 Proxmox experiment, not a benchmark rerun for this article. The Android and Windows-driver development work are discussed as execution-environment integrations, not as claims of full application compatibility.*
 
 ![myOS native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
 
 ## 1. Why the scheduler belongs at the center of the myOS story
 
-myOS presents different operating-system contracts to Linux ELF applications, original Microsoft Windows PE processes, native services and, in a separate development branch, original Android user space. Those contracts differ in their process-visible identifiers, APIs, thread startup, synchronization and error handling. **The actual CPU time, however, belongs to one native scheduling system.**
+myOS presents different operating-system contracts to Linux ELF applications, original Microsoft Windows PE processes, native services and, in a separate development effort, original Android user space. Those contracts differ in their process-visible identifiers, APIs, thread startup, synchronization and error handling. **The actual CPU time, however, belongs to one native scheduling system.**
 
 This is the architectural difference between *hosting operating-system interfaces* and *running several guest operating systems*. myOS does not hand Linux threads to a hidden Linux scheduler or Windows threads to a Windows NT scheduler. Every native runnable thread competes for processor time through the same kernel mechanism. Environment-specific semantics are projected onto that mechanism.
 
@@ -178,7 +178,7 @@ This is the right way to describe the scheduler's role publicly: a demonstrated,
 | Shared, interruption-aware wait protocol | Current source and regression work | Environment-specific interruption semantics remain in their respective interfaces |
 | Tickless idle and one-shot deadlines | Current source and profiling | Periodic preemption still exists for active CPUs |
 | 3.76 µs passage and 0.76 µs wake processing | Dated Proxmox k3s baseline | Historic measurements on 2 vCPUs, not new independent benchmarks |
-| Windows and Android workloads under this scheduler | Architectural integration | Windows has original-service evidence; Android remains a separate partial-boot branch |
+| Windows and Android workloads under this scheduler | Architectural integration | Windows has original-service evidence; Android remains a partially validated Android implementation |
 
 *Review basis:* Native scheduler and SMP implementation; generic wait, wake and timer facilities; dedicated scheduler wake and SMP-stress test definitions; and the dated k3s idle-baseline performance report. No source listings have been copied into this public chapter. No new runtime or hardware test was performed as part of this review.
 
