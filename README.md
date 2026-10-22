@@ -10,8 +10,7 @@ Instead, myOS implements the underlying operating-system mechanisms itself and e
 
 **[Explore the architecture](docs/10-myOS-the-system-behind-the-interfaces.md) | [Technical documentation](docs/README.md)**
 
-![myOS complete system architecture](myOS%20Complete%20System%20Architecture%20Diagram.png)
-
+![myOS complete system architecture](screenshots/myOS%20Current%20System%20Architecture.png)
 ## The idea
 
 Traditional operating systems tightly couple their kernel architecture with the interfaces expected by applications.
