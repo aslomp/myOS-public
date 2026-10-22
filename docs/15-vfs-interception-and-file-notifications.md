@@ -2,7 +2,7 @@
 
 **Filesystem interception and filesystem change notification across Linux and Windows**
 
-*Architecture basis: myOS master, VFS operation interception decision dated 9 October 2026 and the native VFS file-change notification decision. This is an evidence-limited description of the current mechanism, not a statement that every filesystem filter or watcher scenario works.*
+*Architecture basis: myOS implementation, VFS operation interception decision dated 9 October 2026 and the native VFS file-change notification decision. This is an evidence-limited description of the current mechanism, not a statement that every filesystem filter or watcher scenario works.*
 
 ## 1. Why this is a major architectural distinction
 
