@@ -2,7 +2,7 @@
 
 **Why service lifecycle, policy and durable Windows state do not belong inside the generic kernel**
 
-*Source review: `ARCHITECTURE.md` decision records on native service calls, concurrent service runtimes, Windows policy, registry persistence, supervised restarts and the system-service manifest, 9 October 2026.*
+*Review date: 9 October 2026. Covers native service calls, concurrent service runtimes, Windows policy, registry persistence, supervised restarts and system-service coordination.*
 
 ## 1. The native kernel is an authority, not the location of every service
 
