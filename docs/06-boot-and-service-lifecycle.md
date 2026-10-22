@@ -13,7 +13,7 @@ flowchart TD
   SUP --> DR["Driver management and device services"]
   SUP --> LR["Linux execution environment"]
   SUP --> WR["Windows execution environment"]
-  SUP --> AND["Android environment on development branch"]
+  SUP --> AND["Android environment on development effort"]
   DR --> HW["Hardware devices"]
 ```
 
@@ -82,7 +82,7 @@ Startup is correct when every essential resource and service becomes available a
            |                 |                   |
        display/input --------+-------------- Windows services
                                              |
-                                      Android init (branch)
+                                      Android init (implementation)
                                              |
                                  original policy and APEX
                                              |
