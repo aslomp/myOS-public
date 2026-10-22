@@ -2,7 +2,7 @@
 
 **Why containers and operating-system compatibility use the same native networking machinery**
 
-*Source: myOS master architecture, networking Phase X, virtual link and network-domain records, packet filtering, seccomp, PID namespace and cgroup v2 decisions, and the documented k3s workload evidence. Review date: 9 October 2026.*
+*Source: myOS implementation architecture, networking Phase X, virtual link and network-domain records, packet filtering, seccomp, PID namespace and cgroup v2 decisions, and the documented k3s workload evidence. Review date: 9 October 2026.*
 
 ## 1. One network stack, multiple API surfaces
 
