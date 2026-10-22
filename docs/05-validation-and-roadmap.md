@@ -103,7 +103,7 @@ Prioritize foundational correctness and cross-environment regression ahead of ac
 
 ## Windows kernel-driver hosting — separate reviewed implementation
 
-The reviewed implementation contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and Windows-compatible network driver components with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The reviewed evidence does **not** establish working original Microsoft fltmgr.sys or general Windows inbox-driver support. See [driver evidence](09-windows-driver-runtime.md).
+The reviewed implementation contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and Windows-compatible network driver components with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The reviewed evidence does **not** establish working original Microsoft Filter Manager driver or general Windows inbox-driver support. See [driver evidence](09-windows-driver-runtime.md).
 
 ## Implementation update — 22 October 2026
 
