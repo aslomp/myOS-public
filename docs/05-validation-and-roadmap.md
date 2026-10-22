@@ -21,7 +21,7 @@ myOS is an active operating-system research and engineering project. The most me
 | IOMMU / DMA isolation | Demonstrated on emulated Intel and AMD IOMMUs | Physical-hardware testing remains distinct |
 | Windows execution and services | Demonstrated progressively using original binaries | Original driver and desktop coverage remain incomplete |
 | Native filesystem and block paths | Demonstrated for selected filesystem and driver configurations | Edge cases and performance issues remain |
-| Android first/second-stage boot | Demonstrated in part on the Android development branch | Stops at bpfloader in the cited validated run |
+| Android first/second-stage boot | Demonstrated in part on the Android development effort | Stops at bpfloader in the cited validated run |
 | Android desktop and application lifecycle | Not demonstrated | Zygote, framework, graphics and adb acceptance incomplete |
 | Cross-environment integration | Architectural goal with partial implementation | Isolation and whole-system regressions need proof |
 
@@ -38,7 +38,7 @@ flowchart TB
   DESIGN --> TEST --> LOAD --> OBS --> REG --> RELEASE
 ```
 
-The Android audit explicitly reports that the branch had no green full-regression run at its review point. It also identifies a deterministic test issue and stack-overflow investigation, security-isolation gaps, a non-working bpfloader boot step and unproven eBPF JIT behavior. These observations outweigh any claim that the full Android runtime already works.
+The Android audit explicitly reports that the implementation had no green full-regression run at its review point. It also identifies a deterministic test issue and stack-overflow investigation, security-isolation gaps, a non-working bpfloader boot step and unproven eBPF JIT behavior. These observations outweigh any claim that the full Android runtime already works.
 
 ## Immediate engineering priorities
 
@@ -89,7 +89,7 @@ An *implemented* subsystem has a corresponding design and implementation path. A
 | Driver model | Real device, failure/restart, ownership release, DMA isolation |
 | Linux personality | Original applications, shell, desktop and container/network workloads |
 | Windows personality | Original Microsoft process startup, service dependencies, RPC, device functionality |
-| Android branch | Original boot, enforced MAC, APEX, network initialization, framework, graphical app |
+| Android implementation | Original boot, enforced MAC, APEX, network initialization, framework, graphical app |
 | Coexistence | Parallel environments plus boundary abuse and resource exhaustion |
 
 ### Material unresolved integration risks
@@ -101,7 +101,7 @@ At the reviewed point, the Android audit reports absent green full regressions a
 Prioritize foundational correctness and cross-environment regression ahead of accumulating features. One correct native primitive improves all environments; an expedient per-environment duplicate imposes long-term semantic and maintenance cost.
 
 
-## Windows kernel-driver hosting — separate reviewed branch
+## Windows kernel-driver hosting — separate reviewed implementation
 
 The reviewed implementation contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and Windows-compatible network driver components with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The reviewed evidence does **not** establish working original Microsoft fltmgr.sys or general Windows inbox-driver support. See [driver evidence](09-windows-driver-runtime.md).
 
