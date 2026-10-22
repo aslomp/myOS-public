@@ -59,7 +59,7 @@ The status labels below indicate *documentation depth*, not whether every featur
 
 The root PNG illustrations are architectural explanations, not an accurate Boolean compatibility matrix. Their contents must be read with the documented evidence qualifications:
 
-1. **Original Microsoft Filter Manager:** a WDK-built or own filter manager is not equivalent to Microsoft's original `Filter Manager driver` executing successfully. This remains unproven in the reviewed implementation evidence.
+1. **Filesystem filter compatibility:** the original Microsoft Filter Manager has recorded successful startup and selected minifilter I/O acceptance. Complete compatibility across arbitrary filters and filesystem operations remains unverified.
 2. **General Windows driver support:** WDM image hosting and real IRP tests are demonstrated; universal NT inbox driver, WDF, filesystem, USB and graphics driver operation is not.
 3. **Fully unified filesystem caching:** a generic cache and shared file-backed objects exist, but some mmap/file-cache paths can still occupy separate frames.
 4. **All filesystem formats:** ext4 and selected ring-3 read-only providers have evidence. Named formats elsewhere in a conceptual storage diagram are not automatically implemented.
