@@ -2,7 +2,7 @@
 
 **How one operating system enforces protection beneath several compatibility interfaces**
 
-*Architecture basis: myOS master, `ARCHITECTURE.md` — address-space layout, SMEP/SMAP and usercopy, stack protection, ASLR/KASLR, speculative-execution mitigations, cross-process authority, shared address spaces, and resource-group authority. Reviewed 9 October 2026. This chapter describes present architecture and qualifying limits, not certification.*
+*Reviewed 9 October 2026. Topics include address-space layout, memory safety boundaries, stack protection, mitigations, cross-process authority and resource management. This chapter describes architecture and limitations, not certification.*
 
 ## 1. The security boundary is native, not Windows or Linux
 
