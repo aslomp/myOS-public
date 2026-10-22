@@ -2,6 +2,9 @@
 
 Copyright © 2026 Arend Slomp.
 
+**Author:** Arend Slomp  
+**LinkedIn:** https://www.linkedin.com/in/arendslomp/
+
 All rights reserved except as expressly permitted below.
 
 ## Permitted Use
