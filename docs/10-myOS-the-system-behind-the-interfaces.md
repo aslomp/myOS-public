@@ -34,7 +34,7 @@ This creates a demanding engineering problem. The common mechanism must be stron
 
 ### One shared scheduler beneath every environment
 
-This common execution model has its own detailed engineering story: [**One Scheduler, Multiple Operating-System Environments**](11-one-scheduler-multiple-environments.md). Every Linux thread, original Windows service thread, native driver-host worker and Android-development-branch thread ultimately uses the same native SMP scheduling machinery. The implementation has per-CPU ready queues, timed preemption, bounded wakeup preference, idle-time work stealing, periodic balancing, a shared wait/wake mechanism, tickless idle and explicit thread-lifecycle safeguards. The dated Proxmox/k3s baseline provides measured CPU costs while keeping those distinct from wake-to-run latency. The article also identifies features not presently proven, including general CPU hotplug, NUMA-aware initial placement and complete Windows priority-class semantics.
+This common execution model has its own detailed engineering story: [**One Scheduler, Multiple Operating-System Environments**](11-one-scheduler-multiple-environments.md). Every Linux thread, original Windows service thread, native driver-host worker and Android integration thread ultimately uses the same native SMP scheduling machinery. The implementation has per-CPU ready queues, timed preemption, bounded wakeup preference, idle-time work stealing, periodic balancing, a shared wait/wake mechanism, tickless idle and explicit thread-lifecycle safeguards. The dated Proxmox/k3s baseline provides measured CPU costs while keeping those distinct from wake-to-run latency. The article also identifies features not presently proven, including general CPU hotplug, NUMA-aware initial placement and complete Windows priority-class semantics.
 
 ![Native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
 
@@ -44,7 +44,7 @@ The Linux environment uses native myOS processes and memory while exposing the L
 
 That distinction becomes apparent when running software that relies on many kernel facilities simultaneously. Alpine user space and the Wayland/Plasma desktop path have been used as real workloads. So has k3s: Kubernetes is not a single executable that happens to print something. It exercises threads, timers, file mappings, mounts, network interfaces, container-related facilities, process isolation and sustained filesystem activity.
 
-A documented k3s performance run on an earlier master revision observed the unchanged Alpine k3s server announcing startup after about **12 seconds**, a Kubernetes node reaching **Ready after about 15 seconds**, and a first pod sandbox after about **33 seconds** in the recorded QEMU/KVM configuration. These numbers are specific historical measurements, not a promise of current performance on every hypervisor. Their significance is architectural: the workload drove a large cross-section of the operating system.
+A documented k3s performance run on an earlier implementation revision observed the unchanged Alpine k3s server announcing startup after about **12 seconds**, a Kubernetes node reaching **Ready after about 15 seconds**, and a first pod sandbox after about **33 seconds** in the recorded QEMU/KVM configuration. These numbers are specific historical measurements, not a promise of current performance on every hypervisor. Their significance is architectural: the workload drove a large cross-section of the operating system.
 
 The optimization history is equally revealing. Performance problems were traced to over-broad wakeups, APIC access overhead, allocator contention, framebuffer-console work, network acknowledgements and filesystem journal behavior. In other words, once real programs were running, the work shifted from accepting API calls to eliminating actual system-level bottlenecks.
 
@@ -114,7 +114,7 @@ The Windows driver infographic needs particularly careful reading. It correctly 
 
 The actual achievement is still substantial.
 
-The source includes a ring-3 Windows driver host, an NT kernel-driver ABI adapter, executable PE/COFF driver image loading and integration with the same native driver manager used by other driver families. A WDK-built test driver has been exercised through its real driver initialization routine. The branch documents handling of device objects, synchronous and deferred IRPs, cancellation, unload, reloading and survival of a host crash.
+The source includes a ring-3 Windows driver host, an NT kernel-driver ABI adapter, executable PE/COFF driver image loading and integration with the same native driver manager used by other driver families. A WDK-built test driver has been exercised through its real driver initialization routine. The implementation documents handling of device objects, synchronous and deferred IRPs, cancellation, unload, reloading and survival of a host crash.
 
 There is also a distinct Windows networking accomplishment: WDK-built **tcpip.sys and afd.sys implemented for myOS**, where their lower-level transport uses the existing native myOS networking stack. Repository acceptance work reports TCP loopback and UDP interactions through the Windows driver-host path, including listening, connecting, accepting, sending, receiving and cancellation. This does **not** establish a complete Windows NDIS stack or all original Winsock scenarios.
 
@@ -132,7 +132,7 @@ The storage drawing follows requests from Linux, Windows and Android-facing APIs
 
 It expresses a real design goal: multiple operating-system interfaces should not require three unrelated representations of the same disk, filesystem or file object. The native VFS manages filesystem-neutral node and mount identity; personalities interpret their own paths, open flags, namespaces, handles and permissions. A mounted filesystem may be implemented directly or provided by a ring-3 filesystem host.
 
-The source confirms a native ext4 implementation, memory-backed filesystem functionality, mount and overlay-related infrastructure, and filesystem-provider support. Original Linux ISO9660 and UDF filesystem implementations have documented read-only end-to-end use through the provider mechanism. The Android development branch separately introduces native read-only EROFS support suitable for its image requirements.
+The source confirms a native ext4 implementation, memory-backed filesystem functionality, mount and overlay-related infrastructure, and filesystem-provider support. Original Linux ISO9660 and UDF filesystem implementations have documented read-only end-to-end use through the provider mechanism. The Android development effort separately introduces native read-only EROFS support suitable for its image requirements.
 
 Under the filesystem sits a common block-device service. In the asynchronous path, a request is placed into a shared queue and the driver can work while other requests remain outstanding. Completions can arrive independently and are matched to the proper request. That removes the requirement for a synchronous user/kernel round trip for every hardware action, although class-specific behavior, device latency and bounded queues still affect real performance.
 
@@ -146,11 +146,11 @@ Likewise, references to NTFS, exFAT, every virtual disk format, snapshots and un
 
 ## 9. Android: a third environment built on the same principles
 
-The Android development branch adds original AOSP x86-64 user space, not another booted Linux kernel. It reuses the native execution and Linux-facing mechanisms already available, with Android-specific requirements such as first-stage initialization, image-mounted filesystems, SELinux policy, Binder, process groups, network controls and a graphical composition interface.
+The Android development effort adds original AOSP x86-64 user space, not another booted Linux kernel. It reuses the native execution and Linux-facing mechanisms already available, with Android-specific requirements such as first-stage initialization, image-mounted filesystems, SELinux policy, Binder, process groups, network controls and a graphical composition interface.
 
 This is another good demonstration of the generic-versus-specific design rule. Binder's transaction and object semantics belong to the Android-facing interface, while the kernel's generic endpoints, waiting, memory objects and process authority provide reusable foundations. Android's filesystem and boot requirements should strengthen the shared storage and environment primitives rather than creating a separate Android-only machine.
 
-The 9 October branch audit documents genuine progress: original AOSP initialization reaches **SELinux enforcing** with original policy and a set of authentic services, including init, ueventd, apexd, logd, servicemanager, vold and selected security-related components. The audited boot is then stopped by bpfloader. Zygote, system_server, SurfaceFlinger, adb and an interactive app were **not demonstrated** in that run. The same audit reports missing complete regression evidence and outstanding isolation issues on the branch.
+The 9 October technical review documents genuine progress: original AOSP initialization reaches **SELinux enforcing** with original policy and a set of authentic services, including init, ueventd, apexd, logd, servicemanager, vold and selected security-related components. The audited boot is then stopped by bpfloader. Zygote, system_server, SurfaceFlinger, adb and an interactive app were **not demonstrated** in that run. The same audit reports missing complete regression evidence and outstanding isolation issues on the implementation.
 
 The Android image can therefore be understood as a compelling illustration of the intended third execution environment, but not a screenshot of a completed Android desktop. Its real achievement so far is progressing authentic AOSP boot atop the native kernel.
 
@@ -171,9 +171,9 @@ The status infographic is most useful as a map of areas that already have implem
 | Windows AFD/TCPIP | Own native-backed Windows .sys drivers tested through the driver host | Not the complete original Microsoft network driver stack |
 | Original Microsoft fltmgr.sys | Required dependencies and integration being analyzed | **Not shown running successfully** |
 | Storage | Native VFS/ext4, asynchronous device paths and ring-3 ISO9660/UDF providers | Not a unified cache for every mapping or all file formats shown |
-| Android | Authentic AOSP boot through enforcing SELinux and several services in development branch | No complete framework, adb or interactive graphical app acceptance |
+| Android | Authentic AOSP boot through enforcing SELinux and several services in development effort | No complete framework, adb or interactive graphical app acceptance |
 
-The source documents distinguish green test runs at particular revisions from unexecuted acceptance scripts, later changes and separate development branches. That distinction needs to survive in any public description. A successful QEMU test of one driver is not equivalent to a general hardware compatibility certification; a graphic showing a familiar Windows component is not proof that all its dependencies now work.
+The source documents distinguish green test runs at particular revisions from unexecuted acceptance scripts, later changes and separate development work. That distinction needs to survive in any public description. A successful QEMU test of one driver is not equivalent to a general hardware compatibility certification; a graphic showing a familiar Windows component is not proof that all its dependencies now work.
 
 The extra implementation-status infographic in the repository is an earlier conceptual illustration. Some of its stronger claims, including original Microsoft Filter Manager execution and a broadly complete Windows driver ecosystem, are **not supported by the verified material** and are not repeated as facts here.
 
@@ -201,7 +201,7 @@ That is what the diagrams describe. The source review shows how much of that ide
 
 ---
 
-*Review method:* The architecture and claims above were cross-checked against the native kernel and service responsibilities, VFS and filesystem-provider documentation, asynchronous I/O and IOMMU design, original Linux-driver-host records, Windows ALPC and original-service startup analysis, the Windows WDM-host and network-driver acceptance records, and the Android development branch audit. Source was inspected; no fresh all-subsystem boot or hardware acceptance suite was executed specifically for this publication. The narrative deliberately avoids source listings and does not redistribute external operating-system components.
+*Review method:* The architecture and claims above were cross-checked against the native kernel and service responsibilities, VFS and filesystem-provider documentation, asynchronous I/O and IOMMU design, original Linux-driver-host records, Windows ALPC and original-service startup analysis, the Windows WDM-host and network-driver acceptance records, and the Android development effort audit. Source was inspected; no fresh all-subsystem boot or hardware acceptance suite was executed specifically for this publication. The narrative deliberately avoids source listings and does not redistribute external operating-system components.
 
 ## Further engineering depth and completeness review
 
