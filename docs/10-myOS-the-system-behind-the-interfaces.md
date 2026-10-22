@@ -118,9 +118,9 @@ The source includes a ring-3 Windows driver host, an NT kernel-driver ABI adapte
 
 There is also a distinct Windows networking accomplishment: WDK-built **Windows-compatible transport drivers implemented for myOS**, where their lower-level transport uses the existing native myOS networking stack. Repository acceptance work reports TCP loopback and UDP interactions through the Windows driver-host path, including listening, connecting, accepting, sending, receiving and cancellation. This does **not** establish a complete Windows NDIS stack or all original Winsock scenarios.
 
-The source also contains a self-developed Filter Manager driver and a minifilter test artifact. Their existence is not evidence that the original Microsoft Filter Manager already runs. The own Filter Manager is explicitly classified as technical debt: the stated architectural direction is to run Microsoft's original Filter Manager driver in the existing host, connecting it to native mechanisms rather than building another independent filesystem kernel.
+The original Microsoft Filter Manager is hosted within myOS and integrated with the native filesystem path. Recorded tests show successful initialization and selected file operations reaching a hosted minifilter. This reuses the shared filesystem infrastructure rather than introducing a separate Windows filesystem kernel.
 
-Here the line between a promising diagram and current reality is essential. **WDM image execution works in reported tests; universal compatibility with Windows inbox drivers, WDF, storage miniports, graphics drivers and the original Microsoft Filter Manager has not been demonstrated.**
+Here the line between a promising diagram and current reality is essential. **WDM execution and original Microsoft Filter Manager integration have recorded successful tests; universal compatibility with Windows inbox drivers, WDF, storage miniports and graphics drivers has not been demonstrated.**
 
 Still, the distinction from simple application emulation is profound: myOS has implemented a path by which Windows *kernel-driver-format software* can execute inside an ordinary user-space process with access to native operating-system services.
 
@@ -169,13 +169,13 @@ The status infographic is most useful as a map of areas that already have implem
 | Windows applications and services | PE loading and original Microsoft system processes; substantial ALPC/RPC/service startup | Not a complete interactive Windows desktop or universal app support |
 | Windows WDM driver hosting | Executable WDK-built driver, IRP lifecycle and host-failure scenarios in repository acceptance reports | Not universal WDM/KMDF/WDDM compatibility |
 | Windows AFD/TCPIP | Own native-backed Windows .sys drivers tested through the driver host | Not the complete original Microsoft network driver stack |
-| Original Microsoft Filter Manager driver | Required dependencies and integration being analyzed | **Not shown running successfully** |
+| Original Microsoft Filter Manager | Original component loads and connects to native filesystem operations | **Reported successful driver and minifilter acceptance tests** |
 | Storage | Native VFS/ext4, asynchronous device paths and ring-3 ISO9660/UDF providers | Not a unified cache for every mapping or all file formats shown |
 | Android | Authentic AOSP boot through enforcing SELinux and several services in development effort | No complete framework, adb or interactive graphical app acceptance |
 
 The source documents distinguish green test runs at particular revisions from unexecuted acceptance scripts, later changes and separate development work. That distinction needs to survive in any public description. A successful QEMU test of one driver is not equivalent to a general hardware compatibility certification; a graphic showing a familiar Windows component is not proof that all its dependencies now work.
 
-The extra implementation-status infographic in the repository is an earlier conceptual illustration. Some of its stronger claims, including original Microsoft Filter Manager execution and a broadly complete Windows driver ecosystem, are **not supported by the verified material** and are not repeated as facts here.
+The extra implementation-status infographic in the repository is an earlier conceptual illustration. Original Microsoft Filter Manager execution is supported by recorded acceptance evidence, but broader claims of a complete Windows driver ecosystem are not established.
 
 ## 11. What makes this work different
 
