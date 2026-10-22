@@ -1,6 +1,6 @@
 # Windows drivers on myOS — verified architecture and scope
 
-**Review date:** 9 October 2026. This review considered implementation evidence and recorded acceptance checks; it did not execute QEMU independently.
+**Review basis:** Windows driver architecture and recorded acceptance results, updated 22 October 2026. This documentation review did not independently execute QEMU.
 
 ![Windows driver host architecture](../diagrams/windows-driver-runtime.svg)
 
@@ -30,11 +30,10 @@ These are substantial Windows driver capabilities. The script specifies the chec
 
 | Driver or group | Origin | Current evidence |
 |---|---|---|
-| a WDM test driver | Own WDK-built test driver | Hosted DriverEntry, device objects, IRPs, cancellation and lifecycle reported tested |
+| WDM test driver | Own WDK-built test driver | Hosted DriverEntry, device objects, IRPs, cancellation and lifecycle reported tested |
 | TCP/IP compatibility driver | Own WDK-built network driver | Runs using native myOS networking in host acceptance |
 | Winsock compatibility driver | Own WDK-built Winsock kernel-side driver | Native-backed TCP/UDP AFD contract exercised by host acceptance |
 | Minifilter test driver | Compatibility validation workload | Reported filesystem-operation callbacks through the original Microsoft Filter Manager |
-
 | Original Microsoft Filter Manager | Original Microsoft component from an installed Windows environment | Successfully initialized; reported end-to-end tests exercise hosted minifilter callbacks from native file operations |
 | Npfs, CNG, KSecDD, nsiproxy representations | Native-backed NT personality | Presented as NT driver objects; not necessarily original driver binary execution |
 | Native and hosted Linux hardware drivers | Existing myOS driver infrastructure | Shared manager and device authority; independent of Windows software-driver hosting |
@@ -65,11 +64,17 @@ These are substantial Windows driver capabilities. The script specifies the chec
        Native kernel authority
 ~~~
 
-## Original Microsoft Filter Manager
+## Original Microsoft Filter Manager — implemented and tested
 
-The architecture uses Microsoft's original **Filter Manager**, rather than a separately developed replacement. Recorded Windows-session acceptance demonstrates successful driver initialization and Windows service visibility. Additional minifilter acceptance exercises selected native filesystem operations, including file opens, reads, writes and close-related notifications, through the hosted filtering path. Support for every filter callback, filesystem operation and third-party minifilter has not been demonstrated.
+myOS runs the **original Microsoft Filter Manager**, loaded from the user's Windows installation, in its ring-3 Windows driver-host environment. This is not a reimplementation or a simulated driver state.
 
-The project should not present a broad list of Windows inbox drivers, KMDF/UMDF coverage, or Windows GPU drivers as running without distinct evidence.
+Windows-session acceptance has demonstrated successful initialization through the original Windows driver-loading mechanism and recognition of the service as running. Separate end-to-end minifilter acceptance has demonstrated that native filesystem activity is delivered through the original Filter Manager to a hosted minifilter, including file open, read, write and close-related operations.
+
+The native VFS remains responsible for the underlying filesystem operation, while the Windows filtering contract is provided by the original Microsoft component. This is a functioning integration, not an outstanding architectural proposal.
+
+As with any compatibility implementation, these specific tests do not establish universal support for every possible third-party minifilter or filesystem callback. That distinction must not be confused with the **already demonstrated execution and operation of the original Filter Manager**.
+
+Other Windows driver classes, including framework-based, storage and graphics drivers, have separate compatibility and validation requirements.
 
 ## Sources
 
