@@ -2,7 +2,7 @@
 
 **Audit of the public documentation against the complete master architecture record**
 
-*Reviewed: 9 October 2026 · source: myOS master, ARCHITECTURE.md (approximately 13,000 lines; 83 main sections). The review includes the existing English architecture narrative and the additional public chapters created after inspecting the complete master record. It is a documentation coverage audit, not an independent execution of every test.*
+*Reviewed: 9 October 2026. This is an assessment of public documentation coverage, not an independent execution of every test.*
 
 ## Executive result
 
