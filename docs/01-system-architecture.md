@@ -59,7 +59,7 @@ A virtual-machine approach duplicates kernel-level operating-system machinery, t
 
 ## Current maturity
 
-Linux is the most established environment in the reviewed material, with real workload evidence for desktop and container infrastructure. The Windows environment can execute authentic Microsoft user-space components and has reached substantial service initialization, but full desktop and driver compatibility remain ongoing. Android is an active branch: original AOSP boot has reached enforcing SELinux and a subset of services; the complete application and display acceptance scenario has **not** been demonstrated.
+Linux is the most established environment in the reviewed material, with real workload evidence for desktop and container infrastructure. The Windows environment can execute authentic Microsoft user-space components and has reached substantial service initialization, but full desktop and driver compatibility remain ongoing. Android is an active implementation: original AOSP boot has reached enforcing SELinux and a subset of services; the complete application and display acceptance scenario has **not** been demonstrated.
 
 **Review date:** 9 October 2026. This is an architectural interpretation, not an independently successful full-system acceptance run.
 
