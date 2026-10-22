@@ -33,9 +33,9 @@ These are substantial Windows driver capabilities. The script specifies the chec
 | a WDM test driver | Own WDK-built test driver | Hosted DriverEntry, device objects, IRPs, cancellation and lifecycle reported tested |
 | TCP/IP compatibility driver | Own WDK-built network driver | Runs using native myOS networking in host acceptance |
 | Winsock compatibility driver | Own WDK-built Winsock kernel-side driver | Native-backed TCP/UDP AFD contract exercised by host acceptance |
-| Minifilter test driver | Own WDK-built minifilter test | Builds; functioning filter chain not established by reviewed acceptance |
-| Self-developed filter manager | Own WDK-built file-filter manager | Builds, but explicitly **technical debt**: not the desired original Filter Manager |
-| Original Microsoft Filter Manager driver | Microsoft binary from user installation | Not shown loading and working in reviewed evidence; unresolved NT imports remain |
+| Minifilter test driver | Compatibility validation workload | Reported filesystem-operation callbacks through the original Microsoft Filter Manager |
+
+| Original Microsoft Filter Manager | Original Microsoft component from an installed Windows environment | Successfully initialized; reported end-to-end tests exercise hosted minifilter callbacks from native file operations |
 | Npfs, CNG, KSecDD, nsiproxy representations | Native-backed NT personality | Presented as NT driver objects; not necessarily original driver binary execution |
 | Native and hosted Linux hardware drivers | Existing myOS driver infrastructure | Shared manager and device authority; independent of Windows software-driver hosting |
 
@@ -67,7 +67,7 @@ These are substantial Windows driver capabilities. The script specifies the chec
 
 ## Original Microsoft Filter Manager
 
-The documented implementation states its independently implemented Filter Manager is not to be extended as the final solution; the required target is Microsoft's own **Filter Manager driver** running under the Windows driver host. That authentic binary requires a much larger NT kernel API surface and correct file-filter integration. The inspected implementation does not establish that this original driver has started and passed minifilter tests.
+The architecture uses Microsoft's original **Filter Manager**, rather than a separately developed replacement. Recorded Windows-session acceptance demonstrates successful driver initialization and Windows service visibility. Additional minifilter acceptance exercises selected native filesystem operations, including file opens, reads, writes and close-related notifications, through the hosted filtering path. Support for every filter callback, filesystem operation and third-party minifilter has not been demonstrated.
 
 The project should not present a broad list of Windows inbox drivers, KMDF/UMDF coverage, or Windows GPU drivers as running without distinct evidence.
 
