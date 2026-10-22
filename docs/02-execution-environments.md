@@ -49,7 +49,7 @@ Windows service startup, native ALPC backing, GUI and original Windows driver in
 
 ## Android: third environment, not a third kernel
 
-The separate Android development branch adds **original x86-64 AOSP user space**, using the established Linux execution path while extending its contracts for Android. Android-specific requirements include first- and second-stage initialization, Binder communication, SELinux enforcement, property and filesystem behavior, cgroups, eBPF networking, graphics and device presentation.
+The separate Android development effort adds **original x86-64 AOSP user space**, using the established Linux execution path while extending its contracts for Android. Android-specific requirements include first- and second-stage initialization, Binder communication, SELinux enforcement, property and filesystem behavior, cgroups, eBPF networking, graphics and device presentation.
 
 ```mermaid
 flowchart TB
@@ -65,7 +65,7 @@ flowchart TB
   AND --> NAT
 ```
 
-**Observed, not merely planned:** the 9 October Android architecture audit reports a boot reaching the original SELinux policy in enforcing mode, with init, ueventd, apexd, logd, servicemanager, vold and selected security services running. It reports a stop at bpfloader; zygote, system_server, SurfaceFlinger, netd and adbd had not started in that verified run. The audit also reports no full regression pass on the branch. Consequently, Android app installation, launch, graphical interaction and uninstall are **acceptance goals**, not completed demonstrations.
+**Observed, not merely planned:** the 9 October Android architecture audit reports a boot reaching the original SELinux policy in enforcing mode, with init, ueventd, apexd, logd, servicemanager, vold and selected security services running. It reports a stop at bpfloader; zygote, system_server, SurfaceFlinger, netd and adbd had not started in that verified run. The audit also reports no full regression pass on the implementation. Consequently, Android app installation, launch, graphical interaction and uninstall are **acceptance goals**, not completed demonstrations.
 
 ## Shared design, separate contracts
 
@@ -107,9 +107,9 @@ The architecture uses original Microsoft binaries obtained from the user's own i
 
 ### Android as a third environment
 
-Android is more than ELF plus Linux syscalls. Original AOSP first-stage boot, system properties, SELinux policy, APEX, Binder, network initialization, framework lifecycle and composition form a dependency chain. The Android branch extends the Linux-facing interface and uses shared kernel primitives. It deliberately does not boot Android's Linux kernel and does not substitute its own framework or PackageManager.
+Android is more than ELF plus Linux syscalls. Original AOSP first-stage boot, system properties, SELinux policy, APEX, Binder, network initialization, framework lifecycle and composition form a dependency chain. The Android implementation extends the Linux-facing interface and uses shared kernel primitives. It deliberately does not boot Android's Linux kernel and does not substitute its own framework or PackageManager.
 
-The reviewed branch reaches enforcing SELinux and several authentic system services. The audited run stops before zygote and SurfaceFlinger; therefore the existence of the graphics implementation is not yet proof that Android applications appear in Plasma.
+The reviewed implementation reaches enforcing SELinux and several authentic system services. The audited run stops before zygote and SurfaceFlinger; therefore the existence of the graphics implementation is not yet proof that Android applications appear in Plasma.
 
 ### Coexistence acceptance
 
