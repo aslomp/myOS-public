@@ -6,9 +6,9 @@ The documentation is written in English for operating-system engineers, platform
 
 ## Start here
 
-**[One Kernel, Several Operating-System Worlds](10-myOS-the-system-behind-the-interfaces.md)** is the central illustrated narrative. It explains the root architecture PNGs in an intentional order, then distinguishes implementation, demonstrated workloads and development-branch progress.
+**[One Kernel, Several Operating-System Worlds](10-myOS-the-system-behind-the-interfaces.md)** is the central illustrated narrative. It explains the root architecture PNGs in an intentional order, then distinguishes implementation, demonstrated workloads and development progress.
 
-**[Architecture Coverage Review](19-architecture-coverage-review.md)** checks the publication against the complete 83-section master architecture record, mapping subject areas to chapters and identifying outstanding detailed coverage.
+**[Architecture Coverage Review](19-architecture-coverage-review.md)** checks the publication against the complete comprehensive architecture review, mapping subject areas to chapters and identifying outstanding detailed coverage.
 
 ## Core technical chapters
 
@@ -19,7 +19,7 @@ The documentation is written in English for operating-system engineers, platform
 5. [Validation and status](05-validation-and-roadmap.md) — evidence levels, workload validation and implementation limitations.
 6. [Boot and service lifecycle](06-boot-and-service-lifecycle.md) — native initialization, service startup and failure handling.
 7. [IPC, identity and shared resources](07-ipc-identity-and-shared-resources.md) — message transports, waits, lifetime and authority.
-8. [Android architecture and maturity](08-android-architecture-and-maturity.md) — development branch and actual AOSP milestones.
+8. [Android architecture and maturity](08-android-architecture-and-maturity.md) — development effort and actual AOSP milestones.
 9. [Windows driver runtime](09-windows-driver-runtime.md) — WDM execution and original Microsoft-driver limitations.
 10. [Complete illustrated myOS story](10-myOS-the-system-behind-the-interfaces.md) — an integrated public architecture explanation.
 11. [Native scheduler and SMP](11-one-scheduler-multiple-environments.md) — per-CPU runqueues, waits, timing and measured costs.
