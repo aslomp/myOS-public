@@ -2,7 +2,7 @@
 
 **How myOS separates device I/O, partition geometry, filesystem meaning and persistence**
 
-*Source: myOS master storage architecture, generic block boundary, GPT partitioning, ext4 implementation, VFS page cache, file-backed memory and asynchronous I/O design. Reviewed 9 October 2026.*
+*Source: myOS implementation storage architecture, generic block boundary, GPT partitioning, ext4 implementation, VFS page cache, file-backed memory and asynchronous I/O design. Reviewed 9 October 2026.*
 
 ## 1. Why the layers must remain independent
 
@@ -52,7 +52,7 @@ Cancellation, timeouts and priority handling require class-specific end-to-end b
 
 The native VFS can delegate filesystem behavior to a provider process through a shared-memory request interface. The provider can use an authorized block-device capability, but does not gain arbitrary DMA or device claims.
 
-The documented original Linux ISO9660 and UDF implementations have read-only end-to-end test coverage through the provider model. This is separate from the kernel's own ext4 implementation and from the Android development branch's EROFS work.
+The documented original Linux ISO9660 and UDF implementations have read-only end-to-end test coverage through the provider model. This is separate from the kernel's own ext4 implementation and from the Android development effort's EROFS work.
 
 ## 7. Cache, file-backed memory and the current limitation
 
