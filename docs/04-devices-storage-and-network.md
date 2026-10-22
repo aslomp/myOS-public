@@ -118,4 +118,4 @@ The separate Windows-driver implementation contains functioning **ring-3 WDM dri
 
 ![Windows driver-host architecture](../diagrams/windows-driver-runtime.svg)
 
-The implementation also contains own WDK-built filter drivers, but the original Microsoft **Filter Manager driver** is not yet proven running; the own filter-manager implementation is registered as technical debt. See [Windows driver-host implementation](09-windows-driver-runtime.md) for the exact evidence and scope.
+The original Microsoft **Filter Manager** runs in the Windows driver-host environment. Reported acceptance tests demonstrate successful initialization and native filesystem operations reaching a hosted minifilter through the shared VFS. This does not imply universal compatibility with every filesystem filter. See [Windows driver-host implementation](09-windows-driver-runtime.md) for the exact evidence and scope.
