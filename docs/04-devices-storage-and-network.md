@@ -23,7 +23,7 @@ Original Linux source drivers have been hosted in user space in actual device te
 
 ## Storage and filesystem architecture
 
-A native virtual filesystem separates name resolution, mounts and file identity from individual filesystem formats. Native and hosted filesystem providers can serve it. Native ext4 storage, memory-backed filesystems, file-backed memory and provider-based read-only ISO9660/UDF have documented evidence. The Android branch adds requirements for EROFS images, file-backed block devices, partition views and Android file labels.
+A native virtual filesystem separates name resolution, mounts and file identity from individual filesystem formats. Native and hosted filesystem providers can serve it. Native ext4 storage, memory-backed filesystems, file-backed memory and provider-based read-only ISO9660/UDF have documented evidence. The Android implementation adds requirements for EROFS images, file-backed block devices, partition views and Android file labels.
 
 ```mermaid
 flowchart TB
@@ -49,7 +49,7 @@ The kernel owns native network interfaces, transport and packet processing; Linu
 
 ## Graphics
 
-The existing Linux desktop path uses a native user-space GPU/display service exposed through Linux DRM/KMS and a Wayland desktop. The Android branch proposes an isolated virtual DRM output, original SurfaceFlinger and hardware composer, and a bridge that makes Android's output appear as a Wayland window.
+The existing Linux desktop path uses a native user-space GPU/display service exposed through Linux DRM/KMS and a Wayland desktop. The Android implementation proposes an isolated virtual DRM output, original SurfaceFlinger and hardware composer, and a bridge that makes Android's output appear as a Wayland window.
 
 ```mermaid
 flowchart LR
@@ -62,7 +62,7 @@ flowchart LR
   SF --> HWC --> VKMS --> BR --> PR --> KW
 ```
 
-**Status distinction:** the Android display architecture was described as implemented and compilable in its subsystem design document, but not boot-tested. The subsequent branch audit likewise says that the complete graphics chain has not run. It must not be presented as a demonstrated graphical Android session.
+**Status distinction:** the Android display architecture was described as implemented and compilable in its subsystem design document, but not boot-tested. The subsequent technical review likewise says that the complete graphics chain has not run. It must not be presented as a demonstrated graphical Android session.
 
 ## Power management
 
@@ -109,13 +109,13 @@ The network dataplane, interfaces and routing authority remain common. Linux net
 
 ### Original graphics composition
 
-Android's planned path uses original SurfaceFlinger and hardware composer against a virtual DRM/KMS device, then hands an output to a native display bridge and Wayland presenter. This preserves ownership of Android composition inside AOSP and of host desktop composition inside KWin. The graphical chain in the reviewed Android branch is implemented but not end-to-end demonstrated.
+Android's planned path uses original SurfaceFlinger and hardware composer against a virtual DRM/KMS device, then hands an output to a native display bridge and Wayland presenter. This preserves ownership of Android composition inside AOSP and of host desktop composition inside KWin. The graphical chain in the reviewed Android implementation is implemented but not end-to-end demonstrated.
 
 
-## Windows driver execution — additional development branch (9 October 2026)
+## Windows driver execution — additional development effort (9 October 2026)
 
-The separate Windows-driver branch contains functioning **ring-3 WDM driver hosting** under the shared driver manager. Its WDK-built test driver is reported to run with real DriverEntry, IRP completion, cancellation and host-crash recovery. The branch additionally exercises myOS-built Windows **tcpip.sys** and **afd.sys** against the native network stack through a Windows network driver host. These are not just NT device objects displayed to Windows applications.
+The separate Windows-driver implementation contains functioning **ring-3 WDM driver hosting** under the shared driver manager. Its WDK-built test driver is reported to run with real DriverEntry, IRP completion, cancellation and host-crash recovery. The implementation additionally exercises myOS-built Windows-compatible transport drivers against the native network stack through a Windows network driver host. These are not just NT device objects displayed to Windows applications.
 
 ![Windows driver-host architecture](../diagrams/windows-driver-runtime.svg)
 
-The branch also contains own WDK-built filter drivers, but the original Microsoft **fltmgr.sys** is not yet proven running; the own filter-manager implementation is registered as technical debt. See [Windows driver-host implementation](09-windows-driver-runtime.md) for the exact evidence and scope.
+The implementation also contains own WDK-built filter drivers, but the original Microsoft **fltmgr.sys** is not yet proven running; the own filter-manager implementation is registered as technical debt. See [Windows driver-host implementation](09-windows-driver-runtime.md) for the exact evidence and scope.
