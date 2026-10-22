@@ -1,30 +1,108 @@
 # myOS — One Kernel, Several Operating-System Worlds
 
-myOS is an independently developed operating system for x86-64. A single native kernel provides processes, memory, IPC, storage, networking and hardware authority. Linux and Windows execution environments run original software on that foundation; a separate Android development branch is bringing original AOSP user space onto the same architecture.
+**One native kernel. Multiple operating-system environments. Original applications. Shared hardware.**
 
-**[Read the complete, source-checked architecture story](docs/10-myOS-the-system-behind-the-interfaces.md)** — a continuous technical explanation of the diagrams, the design decisions, original workload evidence and known implementation limits.
+myOS is an independently developed, capability-based operating system for x86-64, designed to execute original Linux and Windows software on a single native kernel, with Android integration under active development.
+
+It is not a Linux distribution, a Windows compatibility layer running on Linux, or a hypervisor running separate guest operating systems.
+
+Instead, myOS implements the underlying operating-system mechanisms itself and exposes the interfaces expected by different software ecosystems.
+
+**[Explore the architecture](docs/10-myOS-the-system-behind-the-interfaces.md) | [Technical documentation](docs/README.md)**
 
 ![myOS complete system architecture](myOS%20Complete%20System%20Architecture%20Diagram.png)
 
-For detailed technical chapters, start at the [documentation index](docs/README.md).
+## The idea
 
-## Why this repository exists
+Traditional operating systems tightly couple their kernel architecture with the interfaces expected by applications.
 
-This repository documents the design and observed implementation of myOS for technical readers without publishing source code. Diagrams explain responsibilities; the accompanying text distinguishes implemented and demonstrated features from development work and unfinished integration.
+myOS separates these concerns.
 
-The Windows driver host, Linux driver hosting, shared IPC model, native VFS and Android boot progress receive particular attention in the source-checked story.
+Processes, threads, virtual memory, scheduling, inter-process communication, device ownership and hardware resources are managed by a single independent kernel.
 
-*Reviewed on 9 October 2026 against myOS master, the Android development branch and the Windows-driver development branch. Not every box in an illustrative infographic is a working feature.*
+Linux, Windows and Android environments translate their respective operating-system contracts onto these shared native mechanisms.
 
-## Native scheduler and SMP
+The fundamental design principle is:
 
-The kernel's independent execution engine is documented in [**One Scheduler, Multiple Operating-System Environments**](docs/11-one-scheduler-multiple-environments.md), with a [detailed layered scheduler diagram](diagrams/native-scheduler-smp.svg) and dated, workload-based measurements. It explains how the same scheduling mechanism serves Linux, Windows, native driver hosts and the Android development environment.
+**Implement generic mechanisms once. Implement operating-system-specific semantics where necessary.**
 
-## Complete architecture coverage
+This allows different operating-system environments to coexist without requiring separate kernels, virtual machines or duplicated hardware ownership.
 
-The public chapters have now been reviewed against the complete master architecture record (83 main sections). The review found and addressed missing subjects including native security and memory authority, container networking, system-service calls, the Windows registry, boot policy, filesystem interception and cross-environment notifications, storage durability and technical validation.
+## Architecture highlights
 
-- [Architecture coverage audit and remaining gaps](docs/19-architecture-coverage-review.md)
-- [Full documentation index](docs/README.md)
+| Component | Approach |
+|---|---|
+| Kernel | Independently developed, capability-based Rust kernel |
+| Execution | Native x86-64 processes and shared scheduling |
+| Linux | Linux system-call compatibility and original ELF applications |
+| Windows | NT system-call compatibility and original Windows components |
+| Android | AOSP integration through a separate development effort |
+| Drivers | Native hardware authority with user-space driver hosting |
+| Memory | Shared native memory management and address-space mechanisms |
+| IPC | Native communication primitives supporting environment-specific contracts |
+| Storage and networking | Shared infrastructure exposed through different operating-system interfaces |
 
-The expanded writing covers every major architectural domain at a public explanatory level, but it is **not a complete source-level specification or a new independent acceptance test**. Feature status remains grounded in documented evidence.
+The design emphasizes kernel independence, architectural consistency and reuse of native mechanisms.
+
+## Engineering progress
+
+myOS is an active engineering project, not a finished general-purpose operating system.
+
+Documented development and validation include:
+
+- Linux user-space execution and substantial real-world workloads, including desktop and container infrastructure.
+- Original Windows services and applications running through native compatibility mechanisms.
+- Native multiprocessor scheduling, memory management and inter-process communication.
+- Device management and driver-hosting mechanisms.
+- Android integration and original AOSP user-space development.
+
+Capabilities differ in maturity. Implemented functionality, validated workloads, experimental features and incomplete integration are distinguished in the technical documentation.
+
+**[Read the implementation evidence and known limitations](docs/05-validation-and-roadmap.md)**
+
+## Technical documentation
+
+The repository contains detailed architectural explanations, diagrams, design decisions, implementation observations and validation results.
+
+**Start here:**
+
+- [Complete illustrated architecture](docs/10-myOS-the-system-behind-the-interfaces.md)
+- [System architecture](docs/01-system-architecture.md)
+- [Execution environments](docs/02-execution-environments.md)
+- [Native kernel and security](docs/03-native-kernel-and-security.md)
+- [Drivers, storage and networking](docs/04-devices-storage-and-network.md)
+- [Native scheduler and SMP](docs/11-one-scheduler-multiple-environments.md)
+- [Architecture coverage review](docs/19-architecture-coverage-review.md)
+
+**[Browse all technical chapters](docs/README.md)**
+
+## Why publish the architecture?
+
+myOS is an independent operating-system engineering effort.
+
+This repository makes its architecture, design decisions, technical challenges and measured progress publicly accessible for study, discussion and technical evaluation.
+
+The purpose is to share the engineering behind the system, rather than simply present screenshots or feature claims.
+
+The implementation source code is not published in this repository.
+
+## Author
+
+**Arend Slomp**  
+Independent software engineer and creator of myOS.
+
+[LinkedIn — Arend Slomp](https://www.linkedin.com/in/arendslomp/)
+
+## Copyright and permissions
+
+Copyright © 2026 Arend Slomp.
+
+The documentation may be copied and redistributed for non-commercial purposes, provided that the original repository is clearly credited and linked.
+
+Commercial sale or exploitation of the documentation requires prior written permission.
+
+**[Full copyright and permissions](COPYRIGHT.md)**
+
+---
+
+*myOS is under active development. Architecture documentation describes the design and evidence available at the stated review dates; it does not imply universal application or driver compatibility.*
