@@ -2,7 +2,7 @@
 
 **Native boot, executable loading, platform discovery and the separation between the kernel and user-space policy**
 
-*Reviewed against the master architecture records for the native bootstrap, executable loading, VirtIO, interrupts, boot policy, console, timers, ACPI and power. This is not a new machine-by-machine boot certification.*
+*Reviewed against the system architecture records for the native bootstrap, executable loading, VirtIO, interrupts, boot policy, console, timers, ACPI and power. This is not a new machine-by-machine boot certification.*
 
 ## 1. The first process defines the boundary
 
