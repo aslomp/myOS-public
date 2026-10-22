@@ -55,7 +55,7 @@ The documented design includes address-space protections and mitigation work, se
 
 ## Current risks
 
-The Android branch audit identifies pending environment-isolation issues involving writable machine-wide configuration, some globally visible metadata, incomplete peer-domain checks for selected devices, and unverified regression behavior. These are material integration risks, not generic theoretical caveats. The kernel should be described as architecturally security-conscious, **not certified secure**.
+The Android implementation audit identifies pending environment-isolation issues involving writable machine-wide configuration, some globally visible metadata, incomplete peer-domain checks for selected devices, and unverified regression behavior. These are material integration risks, not generic theoretical caveats. The kernel should be described as architecturally security-conscious, **not certified secure**.
 
 ---
 
