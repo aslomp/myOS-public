@@ -1,7 +1,8 @@
 # Android on myOS: architecture and demonstrated maturity
 
-**Review date:** 9 October 2026  
-**Review basis:** Android architecture audit dated 9 October 2026
+Android integration continues on the shared native kernel and Linux-compatible subsystem. Original AOSP boot components have been exercised, but full framework startup, graphics and interactive application lifecycle are not established by the available end-to-end acceptance evidence. The earlier boot findings below are historical measurements, not a claim about the latest run.
+
+**Historical evidence basis:** recorded AOSP boot investigation.
 
 ## Objective
 
