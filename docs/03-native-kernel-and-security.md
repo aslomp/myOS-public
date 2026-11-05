@@ -1,5 +1,7 @@
 # Native kernel, isolation and security
 
+Native authorization remains the ultimate resource boundary while Linux DAC, capabilities, Landlock and other policy systems, and Windows token-based access checks, provide environment-specific restrictions. Recent kernel refinements include per-thread hardware debug state and general memory and VFS object semantics. These mechanisms must not encode a particular Linux syscall or Windows NT error contract.
+
 The native kernel is the common operating-system authority. It provides process and thread identity, scheduling, virtual memory, synchronization, IPC, files, networks and device-resource access. The execution environments translate their APIs to these facilities.
 
 ```mermaid
