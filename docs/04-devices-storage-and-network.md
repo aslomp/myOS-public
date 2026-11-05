@@ -1,5 +1,7 @@
 # Drivers, storage, networking and display
 
+Device management and drivers still use one native device-authority model shared by multiple user-space driver hosts. Original Linux and Windows driver execution has been demonstrated in selected configurations; no universal driver claim follows. Storage, networking, graphics and synchronization continue to mature, while GPU desktop integration and broad physical hardware support remain active engineering work.
+
 ## One driver-management model
 
 Hardware discovery, driver selection, dependency planning and lifecycle supervision are native services. The driver manager selects a compatible driver from a generated catalog. The selected driver runs through a host appropriate to its origin: native, hosted original Linux code, or the developing Windows driver host. All must obtain hardware authority through the same native device boundary.
