@@ -1,12 +1,14 @@
 # Architecture Coverage Review — myOS implementation
 
-**Audit of the public documentation against the complete architecture review**
+myOS is described as one functional native operating system with Linux and Windows execution environments and Android integration. Current work refines Linux ABI conformance, NT objects and services, and reusable kernel features such as CPU debugging, resource identities and shared memory. The evidence chapter remains the authority on demonstrated versus incomplete functionality; no chapter implies universal compatibility.
 
-*Reviewed: 9 October 2026. This is an assessment of public documentation coverage, not an independent execution of every test.*
+**How the public chapters cover the current operating-system architecture**
+
+*This chapter evaluates the scope and limits of the current public architecture narrative; it is not an independent execution of all tests.*
 
 ## Executive result
 
-**The original public documentation did not cover the complete architecture.** It explained the strongest system-level themes—one native kernel, Linux and Windows personalities, an Android development effort, user-mode drivers, native storage, IPC and scheduling—but omitted or underexplained major architectural decisions.
+**The public architecture narrative covers the major native and compatibility subsystems, but is not an exhaustive implementation specification.** It explained the strongest system-level themes—one native kernel, Linux and Windows personalities, an Android development effort, user-mode drivers, native storage, IPC and scheduling—but omitted or underexplained major architectural decisions.
 
 This review led to added public chapters on native security and memory authority, networking and containers, ring-3 system services and registry persistence, VFS interception and change notification, native boot and platform integration, storage correctness, and engineering validation.
 
