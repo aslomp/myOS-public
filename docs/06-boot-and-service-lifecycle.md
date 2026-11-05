@@ -1,5 +1,7 @@
 # Boot and service lifecycle
 
+myOS starts one independent native kernel and subsequently launches user-space services for Linux, Windows and Android-facing execution. Process, device and resource ownership remains native throughout startup. Full service and desktop integration is evaluated separately from successful launches of individual processes.
+
 ## From firmware to multiple environments
 
 The native boot sequence establishes ownership of the machine before any compatibility environment starts. The bootloader hands control to the kernel; hardware discovery and kernel resource initialization establish the foundations for user-space services. The native service manager and loader are responsible for starting the appropriate infrastructure, rather than making a Linux or Windows environment the master operating system.
