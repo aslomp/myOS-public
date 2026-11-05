@@ -17,6 +17,8 @@ A capability is never called universally compatible simply because one applicati
 
 ## Current capability assessment
 
+The following table records representative demonstrated behavior, while current Linux and Windows ABI work continues to deepen semantics and native kernel mechanisms. A 385-entry Linux 7.2.11 x86-64 syscall catalogue is under differential review; the count is not a claim of complete conformance. New work in CPU debugging, mount and namespace behavior, directory identity, credentials, signals, native object lifetimes, Windows ALPC and WNF remains subject to end-to-end regression.
+
 | Area | Present capability | Remaining limits |
 |---|---|---|
 | Native kernel | SMP scheduling, virtual memory, process/thread identity, IPC, common object lifetime, filesystems and device authority form a functioning foundation | Whole-system reliability, long-duration stress, isolation and broad hardware validation continue |
