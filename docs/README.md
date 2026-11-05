@@ -2,7 +2,7 @@
 
 **One independent native kernel. Multiple operating-system execution environments.**
 
-The documentation is written in English for operating-system engineers, platform architects and technically experienced readers. It explains mechanisms, architectural boundaries, real workload evidence and known limitations **without source-code listings**.
+The documentation is written in English for operating-system engineers, platform architects and technically experienced readers. These chapters form **one current architecture narrative**, with truthful distinctions between functioning components, observed workloads and work still in progress. Historical measurements are retained only as dated evidence, not as the present system status. No source code or links to non-public implementation material are included.
 
 ## Start here
 
@@ -48,8 +48,6 @@ These layered vector illustrations complement the existing PNGs in the repositor
 
 Mermaid interaction diagrams are also embedded in selected chapters. Neither type of diagram is a substitute for current source and validated test evidence.
 
-## Source and review scope
+## Scope and interpretation
 
-**Review date:** 9 October 2026. The documentation separates implemented components from demonstrated end-to-end behavior and identifies where validation is still missing.
-
-The public chapters are intended as **architecture explanations**, not a second source-code reference manual, not proof of universal Linux/Windows/Android compatibility, and not a claim that every architecture decision has equal public depth.
+This index and the linked chapters describe the operating system's current architecture and engineering maturity. Conceptual illustrations show relationships rather than proving a feature is fully functional. The [validation chapter](05-validation-and-roadmap.md) is the primary reference for the present maturity and open integration limits. Earlier measured runs retain their original context where mentioned. This publication is neither a source-code reference manual nor a certification of universal application, driver, security or hardware support.
