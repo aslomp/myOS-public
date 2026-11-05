@@ -114,7 +114,7 @@ The network dataplane, interfaces and routing authority remain common. Linux net
 Android's planned path uses original SurfaceFlinger and hardware composer against a virtual DRM/KMS device, then hands an output to a native display bridge and Wayland presenter. This preserves ownership of Android composition inside AOSP and of host desktop composition inside KWin. The graphical chain in the reviewed Android implementation is implemented but not end-to-end demonstrated.
 
 
-## Windows driver execution — additional development effort (9 October 2026)
+## Windows driver execution
 
 The separate Windows-driver implementation contains functioning **ring-3 WDM driver hosting** under the shared driver manager. Its WDK-built test driver is reported to run with real DriverEntry, IRP completion, cancellation and host-crash recovery. The implementation additionally exercises myOS-built Windows-compatible transport drivers against the native network stack through a Windows network driver host. These are not just NT device objects displayed to Windows applications.
 
