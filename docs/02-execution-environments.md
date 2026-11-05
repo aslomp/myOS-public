@@ -1,5 +1,7 @@
 # Execution environments: Linux, Windows and Android
 
+The Linux execution environment now follows a systematic Linux 7.2.11 x86-64 system-call audit covering 385 reference entries. Work spans memory, credentials, namespaces, mount semantics, file descriptions, signal and thread lifecycle, hardware debugging and event handling. This number describes the catalogue, not a claim of 385 fully conformant calls. Windows NT services, ALPC, WNF, tokens and drivers are likewise undergoing detailed behavioral testing. Android application lifecycle integration remains incomplete.
+
 myOS does not divide the computer into three machines. It divides the **interfaces applications expect** while retaining one native process and resource model.
 
 ```mermaid
