@@ -1,5 +1,7 @@
 # Native Networking, Virtual Networks and Container Isolation
 
+Linux container and networking compatibility now receives detailed reviews of namespace identity, permissions, syscall arguments and lifecycle behavior. These remain interfaces to the common native networking and resource-management system. The recorded k3s workload applies to its tested configuration rather than all Linux container implementations.
+
 **Why containers and operating-system compatibility use the same native networking machinery**
 
 *Source: myOS implementation architecture, networking Phase X, virtual link and network-domain records, packet filtering, seccomp, PID namespace and cgroup v2 decisions, and the documented k3s workload evidence. Review date: 9 October 2026.*
