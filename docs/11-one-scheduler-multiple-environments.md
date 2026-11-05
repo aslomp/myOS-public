@@ -4,7 +4,7 @@ The single native scheduler serves all execution environments. Recent work exten
 
 **The native execution engine of myOS — architecture, synchronization, multicore behavior and measured cost**
 
-*Source review: myOS implementation on 9 October 2026. The measurements below come from a documented 1 October 2026 Proxmox experiment, not a benchmark rerun for this article. The Android and Windows-driver development work are discussed as execution-environment integrations, not as claims of full application compatibility.*
+*The measurements below belong to a recorded Proxmox experiment, not a fresh benchmark. Execution-environment integration must not be confused with universal application compatibility.*
 
 ![myOS native scheduler and SMP architecture](../diagrams/native-scheduler-smp.svg)
 
