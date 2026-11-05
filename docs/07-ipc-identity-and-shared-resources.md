@@ -1,5 +1,7 @@
 # IPC, process identity and shared resources
 
+The shared native object model now supports increasingly precise file-description identity, shared memory mappings and notification lifetimes. Linux descriptors and Windows NT handles and ALPC ports retain distinct interface contracts while using common resource-management mechanisms. Concurrency, cancellation and cleanup remain essential acceptance areas.
+
 A multi-environment operating system must reconcile different names and conventions for the same underlying concepts. myOS addresses this through shared native identities, handles, memory objects and communication mechanisms, alongside environment-facing representations.
 
 ## One mechanism, different vocabulary
