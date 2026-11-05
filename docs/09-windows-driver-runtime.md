@@ -2,7 +2,7 @@
 
 Original Windows driver components run in user space behind the native hardware-authority boundary and an NT-compatible driver interface. Ongoing refinements to NT objects, access tokens, ALPC and system notifications may improve driver and service compatibility. Prior driver demonstrations apply only to their recorded hardware configurations.
 
-**Review basis:** Windows driver architecture and recorded acceptance results, updated 22 October 2026. This documentation review did not independently execute QEMU.
+**Evidence:** Recorded driver acceptance results describe particular tested configurations, not a fresh QEMU run.
 
 ![Windows driver host architecture](../diagrams/windows-driver-runtime.svg)
 
@@ -82,7 +82,7 @@ Other Windows driver classes, including framework-based, storage and graphics dr
 
 The review used technical implementation reviews and dated driver-host acceptance records. Historical design sections remain in some of these documents, so later implementation and measured-status sections take precedence.
 
-## NDIS status — 22 October 2026
+## Windows network-driver compatibility
 
 The current implementation includes Windows NDIS miniport compatibility over native device and networking mechanisms. Windows-visible adapter and statistics interfaces are separate from execution of an original miniport binary.
 
