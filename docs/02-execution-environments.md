@@ -117,6 +117,6 @@ The reviewed implementation reaches enforcing SELinux and several authentic syst
 
 Run Linux desktop and services, original Windows services, and Android startup concurrently while applying memory pressure, process termination, device removal, I/O cancellation and network-policy changes. Measure whether the common kernel continues to enforce boundaries and whether one environment's failure cascades into the others. The reviewed documentation does not yet establish that this full matrix passes.
 
-## PE loading: implementation update (22 October 2026)
+## Windows executable loading
 
 The Windows executable-loading implementation supports both PE32+ (AMD64) and PE32 (I386) image handling, with separate responsibilities for parsing, module dependency resolution and process construction. WOW64-related process and thread mechanisms are also present. This is an implementation review, not proof of arbitrary 32-bit application compatibility or a new regression-test result.
