@@ -1,5 +1,7 @@
 # From Firmware to Running Processes
 
+The current boot architecture preserves one native kernel and user-space loaders, without embedding Linux or Windows executable loading semantics inside the generic kernel. Ongoing compatibility work expands the demands on native process startup, thread context and service lifecycle without changing this separation.
+
 **Native boot, executable loading, platform discovery and the separation between the kernel and user-space policy**
 
 *Reviewed against the system architecture records for the native bootstrap, executable loading, VirtIO, interrupts, boot policy, console, timers, ACPI and power. This is not a new machine-by-machine boot certification.*
