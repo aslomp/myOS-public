@@ -1,8 +1,10 @@
 # myOS — One Kernel, Several Operating-System Worlds
 
+myOS is now a functioning operating system under active development rather than an exploratory kernel alone. One native kernel supports original Linux and Windows workloads and Android integration. A systematic Linux 7.2.11 ABI audit covers 385 x86-64 reference entries while Windows NT communications, notifications and security behavior continue to mature. The operating system is not yet universally compatible or production-certified.
+
 **A technical story of the architecture, the engineering decisions and the functionality demonstrated so far.**
 
-*Review date: 9 October 2026. The accompanying illustrations are conceptual diagrams, not test reports. This publication contains no source code.*
+*Illustrations show concepts rather than test results.*
 
 ## 1. The idea: an operating system beneath the interfaces
 
