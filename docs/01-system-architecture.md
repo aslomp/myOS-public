@@ -1,6 +1,8 @@
 # myOS — System architecture
 
-**Architecture assessment · 9 October 2026**
+myOS is now a functioning, actively developed operating system with one native kernel, not merely a kernel feasibility experiment. Its native mechanisms are refined by both Linux and Windows compatibility requirements while remaining independent of either operating-system ABI. Recent development strengthens thread CPU/debug context, process and object lifetimes, shared memory and filesystem identities.
+
+**Architecture and operating-system status**
 
 myOS is an independently developed operating system built around a native x86-64 kernel. Its defining design choice is to host multiple operating-system execution environments on **one kernel** instead of using a virtual machine, a second kernel, or a translation layer that owns the machine. Native operating-system mechanisms are shared; each environment supplies the process-facing contract expected by its applications.
 
