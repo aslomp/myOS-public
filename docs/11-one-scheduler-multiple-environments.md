@@ -1,5 +1,7 @@
 # One Scheduler, Multiple Operating-System Environments
 
+The single native scheduler serves all execution environments. Recent work extends generic per-thread CPU and hardware-debug context, thread lifecycle and wakeup handling as Linux and Windows compatibility requirements expose edge cases. The historic performance measurements below remain specific to the runs in which they were collected.
+
 **The native execution engine of myOS — architecture, synchronization, multicore behavior and measured cost**
 
 *Source review: myOS implementation on 9 October 2026. The measurements below come from a documented 1 October 2026 Proxmox experiment, not a benchmark rerun for this article. The Android and Windows-driver development work are discussed as execution-environment integrations, not as claims of full application compatibility.*
