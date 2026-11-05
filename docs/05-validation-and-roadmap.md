@@ -1,114 +1,51 @@
-# Validation, evidence and open integration work
+# Validation, capability maturity and remaining work
 
-myOS is an active operating-system research and engineering project. The most meaningful progress measures are **observable original workloads**, consistency of shared kernel mechanisms and reproducible tests—not source size or the number of named APIs.
+myOS is an actively developed, capability-based operating system. Its main architectural result is a **single native kernel** that manages hardware and resources while original Linux, Windows and emerging Android environments supply their respective application-facing contracts. The system has demonstrated substantial original workloads; it is not yet a general-purpose production-certified operating system.
 
-## Evidence terminology
+## How to read capability claims
 
-| Label | Meaning |
+| Evidence level | Meaning |
 |---|---|
-| Demonstrated | Original workload or targeted test executed and produced observable evidence |
-| Implemented, not demonstrated | A path exists and may compile, but end-to-end operation was not established |
-| In progress | Missing contracts, partial execution or known blockers |
-| Planned | Design target without a validated implementation |
+| Implemented | A mechanism or interface exists; operation is not implied |
+| Test written | A reproducible test exists, but may not have been run |
+| Reference-passing | A test agrees with the selected upstream reference |
+| Differentially conformant | The tested scenario agrees on both the reference and myOS |
+| Workload-demonstrated | An original workload or device ran in a recorded environment |
+| Stress-validated | Selected concurrency, lifecycle and fault scenarios survived repeated tests |
 
-## Current assessment, 9 October 2026
+A capability is never called universally compatible simply because one application launched or its syscall handler exists.
 
-| Area | Assessment | Caveat |
+## Current capability assessment
+
+| Area | Present capability | Remaining limits |
 |---|---|---|
-| Native process/memory/IPC foundation | Demonstrated in extensive subsystem and workload activity | Full correctness is not proven by subsystem tests |
-| Linux execution | Demonstrated with substantial real workloads | Not universal Linux compatibility |
-| Linux-hosted user-space drivers | Demonstrated for selected devices | Many device families still require validation |
-| IOMMU / DMA isolation | Demonstrated on emulated Intel and AMD IOMMUs | Physical-hardware testing remains distinct |
-| Windows execution and services | Demonstrated progressively using original binaries | Original driver and desktop coverage remain incomplete |
-| Native filesystem and block paths | Demonstrated for selected filesystem and driver configurations | Edge cases and performance issues remain |
-| Android first/second-stage boot | Demonstrated in part on the Android development effort | Stops at bpfloader in the cited validated run |
-| Android desktop and application lifecycle | Not demonstrated | Zygote, framework, graphics and adb acceptance incomplete |
-| Cross-environment integration | Architectural goal with partial implementation | Isolation and whole-system regressions need proof |
+| Native kernel | SMP scheduling, virtual memory, process/thread identity, IPC, common object lifetime, filesystems and device authority form a functioning foundation | Whole-system reliability, long-duration stress, isolation and broad hardware validation continue |
+| Linux execution | Original applications, graphical environments and container workloads have run. Detailed Linux 7.2.11 x86-64 ABI conformance work covers filesystem, memory, thread, signal, credential, namespace, mount, event and debugging behavior | Many fine-grained behaviors and reference comparisons remain incomplete or divergent |
+| Windows execution | Original Windows processes, management tools and services execute; NT objects, ALPC, WNF, access tokens and driver interfaces have substantial implementations | Desktop completion, original drivers, service dependencies and concurrency still have open integration cases |
+| Device and storage | Common block, filesystem, networking, display and ring-3 driver infrastructure; selected original drivers demonstrated | Controller, driver, crash recovery, I/O durability and hardware coverage vary |
+| Android integration | AOSP userspace integration on the common native foundation, including Android-specific interface work | Full framework, display and application lifecycle are not established by the documented acceptance evidence |
+| Cross-environment operation | One scheduler, resource model and hardware authority support multiple execution environments | Simultaneous workload, abuse, isolation and recovery matrices require continuing validation |
 
-## End-to-end validation model
+## Linux compatibility: what the catalogue really means
 
-```mermaid
-flowchart TB
-  DESIGN["Generic architecture and invariants"]
-  TEST["Native kernel and interface tests"]
-  LOAD["Real unmodified workload"]
-  OBS["Logs · traces · visible result"]
-  REG["Regression of Linux + Windows + Android"]
-  RELEASE["Evidence-based capability claim"]
-  DESIGN --> TEST --> LOAD --> OBS --> REG --> RELEASE
-```
+The reference programme enumerates **385 non-x32 x86-64 system-call entries** from a fixed Linux 7.2.11 configuration. The catalogue includes obsolete and configuration-disabled entries. It is an inventory, not a count of fully implemented or validated syscalls.
 
-The Android audit explicitly reports that the implementation had no green full-regression run at its review point. It also identifies a deterministic test issue and stack-overflow investigation, security-isolation gaps, a non-working bpfloader boot step and unproven eBPF JIT behavior. These observations outweigh any claim that the full Android runtime already works.
+A complete behavioral claim requires checking the accepted and rejected flags, argument widths, error precedence, permissions, lifecycle across fork/exec/close/exit, cross-process observations and concurrency. A case passing on upstream Linux is not yet a myOS pass. A case passing on both covers the tested contract, not every reachable behavior. Some security decisions intentionally differ from stock Linux and remain declared policy rather than silently relabeled conformant.
 
-## Immediate engineering priorities
+Coverage must separate actual syscall invocation, implementation branch execution, upstream contract coverage and cross-syscall interactions. In particular, access controls such as Landlock and discretionary permissions need enforcement tests when *other* filesystem, networking and process calls invoke them.
 
-1. Stabilize the shared kernel and rerun comprehensive multicore and cross-environment regression tests.
-2. Resolve the Android boot blocker, then demonstrate zygote, system_server, SurfaceFlinger and adb in sequence.
-3. Validate security boundaries between execution environments, including device access, machine-wide settings and peer-domain checks.
-4. Complete real Windows driver and desktop service integration without duplicating native kernel facilities.
-5. Continue end-to-end latency, driver crash/recovery and hardware platform validation.
+## Windows compatibility and evidence
 
-## Interpretation
+Original Windows applications, native services and selected driver workloads demonstrate important NT-compatible execution paths. The ongoing refinement of ALPC, WNF, handles, access tokens and graphics prerequisites targets precise object lifetime, error behavior and synchronization. A recorded driver or GUI success does not establish that every driver, desktop path or Windows release operates correctly. Known Windows GUI and acceptance-test issues remain open.
 
-The strongest aspect of myOS is architectural coherence: the machine remains owned by one kernel, while the operating-system contracts and driver runtimes are separable. The primary challenge is not adding another compatibility API in isolation; it is preserving this shared model while proving all three execution environments can coexist under realistic workloads.
+## Shared native architecture
 
-This document does **not** assert formal security certification, complete Windows support, general Android application compatibility or readiness for general-purpose production deployment.
+A compatibility requirement is satisfied in the execution environment when it concerns Linux- or Windows-specific ABI policy; reusable resource, scheduling, memory, VFS and hardware operations belong in the common kernel. Recent work on hardware debugging, thread context, directory-node identity, file-description sharing and native memory objects is part of the same design, not a second kernel or a duplicated compatibility stack.
 
----
+## Open acceptance work
 
-## Engineering acceptance methodology
+The most important next step is a repeatable, versioned end-to-end test matrix: original Linux and Windows workloads, the Android boot/framework milestones, multicore concurrency, resource exhaustion, permission boundaries, driver restart and storage durability. Tests must distinguish the reference kernel from myOS and preserve both positive results and known divergences. Subsystem fuzzing and static analysis strengthen assurance but do not prove the absence of defects.
 
-Compatibility claims need a chain of independently repeatable evidence:
+Historic demonstrations cited elsewhere in the documentation describe what ran in those particular configurations. They are evidence, not a live automated production-readiness score.
 
-```text
-  Design invariant
-       |
-  Unit / kernel subsystem tests
-       |
-  Real original binary or device workload
-       |
-  Failure and restart injection
-       |
-  Cross-environment concurrency / isolation
-       |
-  Repeated runs across CPU counts and platforms
-       |
-  Public statement of what was actually observed
-```
-
-### Interpreting measured progress
-
-An *implemented* subsystem has a corresponding design and implementation path. A *tested* subsystem has one or more direct tests. A *workload-demonstrated* subsystem has executed a relevant original program or driven hardware in a real scenario. A *system-validated* subsystem must additionally survive regression, concurrency and failure scenarios. These are separate milestones.
-
-### Validation matrix
-
-| Dimension | Minimum representative evidence |
-|---|---|
-| Scheduler and wait | Multicore wakeup, migration, cancellation and process-exit stress |
-| Filesystem and storage | Metadata-heavy workloads, writeback, flush, unmount, read-only providers |
-| Driver model | Real device, failure/restart, ownership release, DMA isolation |
-| Linux personality | Original applications, shell, desktop and container/network workloads |
-| Windows personality | Original Microsoft process startup, service dependencies, RPC, device functionality |
-| Android implementation | Original boot, enforced MAC, APEX, network initialization, framework, graphical app |
-| Coexistence | Parallel environments plus boundary abuse and resource exhaustion |
-
-### Material unresolved integration risks
-
-At the reviewed point, the Android audit reports absent green full regressions and a boot stop in network initialization. The Windows original driver-host model has outstanding integration with the driver-specific NT contracts. Generic IPC readiness and completion work remains subject to specific verification criteria, and storage/caching reviews identify edge-case debt. Public status descriptions must keep these limitations attached to any performance or compatibility claims.
-
-### Roadmap principle
-
-Prioritize foundational correctness and cross-environment regression ahead of accumulating features. One correct native primitive improves all environments; an expedient per-environment duplicate imposes long-term semantic and maintenance cost.
-
-
-## Windows kernel-driver hosting — separate reviewed implementation
-
-The reviewed implementation contains a WDK-based driver host, a WDM test driver with reported QEMU acceptance, and Windows-compatible network driver components with native-backed TCP/UDP tests. This is demonstrated functionality **beyond NT driver-object representation**. The recorded tests establish execution of the original Microsoft Filter Manager and minifilter callbacks for selected file operations. General Windows inbox-driver support remains outside the validated scope. See [driver evidence](09-windows-driver-runtime.md).
-
-## Implementation update — 22 October 2026
-
-This update supplements the 9 October architecture review. The current implementation contains PE32 and PE32+ parsing, Windows module loading, WOW64-related process and thread support, Windows NDIS miniport compatibility, and ALPC transport integration with shared native mechanisms. Code presence does not by itself establish complete functional compatibility.
-
-The recorded 16 October NDIS test of an original Windows network driver demonstrated a bound device, link detection and four successful ping replies, with 11 reported acceptance checks. The current implementation has not been independently retested for this documentation update.
-
-Full compatibility and regression status must be established through separate dated acceptance tests; historical test results should not be interpreted as results from the current revision.
+**Project status:** operational research/development operating system with growing compatibility, ongoing integration and incomplete whole-system acceptance. There is no claim of formal security certification, universal ABI equivalence or general-production readiness.
