@@ -1,5 +1,7 @@
 # Kernel Security, Virtual Memory and Native Authority
 
+Native process, memory, resource and device authority stays independent of every compatibility ABI. Recent development strengthens thread debugging context, file and directory object identity and shared memory behavior, while Linux security policies and Windows access tokens translate onto the same capability boundary. Security analysis and testing are ongoing and do not constitute certification.
+
 **How one operating system enforces protection beneath several compatibility interfaces**
 
 *Reviewed 9 October 2026. Topics include address-space layout, memory safety boundaries, stack protection, mitigations, cross-process authority and resource management. This chapter describes architecture and limitations, not certification.*
