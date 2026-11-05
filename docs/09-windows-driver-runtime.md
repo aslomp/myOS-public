@@ -1,5 +1,7 @@
 # Windows drivers on myOS — verified architecture and scope
 
+Original Windows driver components run in user space behind the native hardware-authority boundary and an NT-compatible driver interface. Ongoing refinements to NT objects, access tokens, ALPC and system notifications may improve driver and service compatibility. Prior driver demonstrations apply only to their recorded hardware configurations.
+
 **Review basis:** Windows driver architecture and recorded acceptance results, updated 22 October 2026. This documentation review did not independently execute QEMU.
 
 ![Windows driver host architecture](../diagrams/windows-driver-runtime.svg)
