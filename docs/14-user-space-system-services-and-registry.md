@@ -1,5 +1,7 @@
 # User-Space System Services, Boot Policy and the Windows Registry
 
+Native user-space services still own driver hosting, registry state and other sustained system work. Current Windows integration includes more precise NT object behavior, ALPC messaging, WNF notifications and token operations, while shared native process and memory primitives remain independent of the Windows ABI. Integration and recovery are validated separately from individual service startup.
+
 **Why service lifecycle, policy and durable Windows state do not belong inside the generic kernel**
 
 *Review date: 9 October 2026. Covers native service calls, concurrent service runtimes, Windows policy, registry persistence, supervised restarts and system-service coordination.*
