@@ -1,5 +1,7 @@
 # One Native VFS, Two Distinct Event Mechanisms
 
+The common VFS increasingly uses persistent directory-node and open-file identities instead of interpreting a path string as the resource itself. This supports Linux directory and mount semantics alongside Windows file operations and notifications. Interception and post-operation notification remain distinct functions, and full filter-driver compatibility is not implied.
+
 **Filesystem interception and filesystem change notification across Linux and Windows**
 
 *Architecture basis: myOS implementation, VFS operation interception decision dated 9 October 2026 and the native VFS file-change notification decision. This is an evidence-limited description of the current mechanism, not a statement that every filesystem filter or watcher scenario works.*
