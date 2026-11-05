@@ -45,7 +45,7 @@ The design emphasizes kernel independence, architectural consistency and reuse o
 
 ## Engineering progress
 
-**[Implementation update — 22 October 2026](docs/05-validation-and-roadmap.md#implementation-update--22-october-2026):** a dated technical-status update for Windows execution, NDIS and IPC, distinguishing implemented mechanisms from independently validated behavior.
+**Current state:** myOS is a functioning, actively developed multi-environment operating system. Linux compatibility is being checked against a fixed 385-entry Linux 7.2.11 x86-64 syscall catalogue; Windows NT services, ALPC, WNF and driver hosting continue to mature. The native kernel gains reusable memory, filesystem, scheduling and debugging mechanisms. This is not a claim that all syscalls or workloads are fully compatible.
 
 myOS is an active engineering project, not a finished general-purpose operating system.
 
