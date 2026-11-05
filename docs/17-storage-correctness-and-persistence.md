@@ -1,5 +1,7 @@
 # Storage Correctness: Block Boundaries, ext4, Caching and Durability
 
+The common storage model continues to evolve through generic file and directory identity, shared file descriptions, mapped memory, caching and mount operations. Linux compatibility places precise requirements on flushing, permissions and resource lifetimes; reusable mechanisms belong in the native kernel while filesystem-specific behavior remains at its own boundary.
+
 **How myOS separates device I/O, partition geometry, filesystem meaning and persistence**
 
 *Source: myOS implementation storage architecture, generic block boundary, GPT partitioning, ext4 implementation, VFS page cache, file-backed memory and asynchronous I/O design. Reviewed 9 October 2026.*
