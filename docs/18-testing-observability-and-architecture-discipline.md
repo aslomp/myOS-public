@@ -1,5 +1,7 @@
 # Testing, Observability and Architecture Discipline
 
+Validation now includes kernel tests, original-software workloads, differential Linux 7.2.11 syscall cases, Windows NT behavior probes, static analysis and fuzzing. The Linux reference catalogue contains 385 non-x32 syscall entries, not 385 proven conformant calls. Written tests, passed reference cases, matching myOS behavior and whole-system stress results remain distinct evidence levels. Cross-subsystem access-control enforcement must be tested alongside isolated interfaces.
+
 **How myOS evaluates mechanisms without confusing a design decision with a working subsystem**
 
 *Reviewed against myOS implementation architecture, its test-architecture and lock-ordering records, its measured performance reports and the stated technical-debt process. This chapter discusses current engineering practices, not an independent test certification.*
