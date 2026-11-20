@@ -23,6 +23,24 @@ flowchart TB
 
 Original Linux source drivers have been hosted in user space in actual device tests, including VirtIO and some Hyper-V paths. Other discovered or buildable drivers are not necessarily runnable. Windows WDM-style hosting and original Microsoft driver functionality are still being connected: a driver host existing in the architecture does not establish that a specific original Windows driver can start and operate.
 
+## Original Linux driver execution: measured versus available
+
+The Linux compatibility driver kit compiles selected **unmodified upstream Linux driver source** into ring-3 hosts. Device selection and exclusive claims remain with the native driver manager; the Linux runtime supplies the PCI/VirtIO/VMBus and subsystem conventions expected by the driver. A catalog entry, successful build or registration is not itself proof of I/O.
+
+| Original Linux driver or group | Evidence in the implementation records | Boundary |
+|---|---|---|
+| VirtIO input (original input and VirtIO cores) | QEMU keyboard/mouse input passed the same 29/29 acceptance checks as the native alternative | Specific input devices and configuration |
+| VirtIO block and SCSI | Recorded ring-3 block/SCSI device acceptance through native storage interfaces | Requires the kernel to leave the device to ring 3 |
+| VirtIO network | QEMU guest gateway pings and a checksum-matched 4 MiB TCP transfer | Specific emulated NIC and network path |
+| Hyper-V VMBus and keyboard | Bus negotiation and console keyboard input demonstrated | Not general Hyper-V device coverage |
+| Hyper-V storvsc/netvsc | Built, linked and registered in the VMBus host | Storage I/O and network traffic not shown by the referenced QEMU VMBus tests |
+| Hyper-V HID, synthetic display, UIO and sockets | Linked to the relevant original subsystem cores | Some consumer paths or actual Hyper-V host tests remain absent |
+| Intel e1000e, AHCI, VirtIO RNG, i8042 | Driver kits/manifests or compiled images present | The driver-framework status table does **not** establish guest operation for these Linux variants |
+| Intel i801 SMBus, Hyper-V PCI bridge | Partial object/build support | Cannot be treated as operating device drivers |
+| Original Linux ISO9660 and UDF filesystems | Hosted as filesystem providers in their own processes | Filesystem hosts, **not** entries in the hardware-driver catalog |
+
+The native kernel's VirtIO block/network/RNG drivers and native input/serial drivers are separate from the original Linux-source hosts. A normal boot selecting a kernel or native driver is not evidence that its Linux-source counterpart executed. Older device matrices may describe the selected QEMU default rather than every configurable acceptance run.
+
 ## Storage and filesystem architecture
 
 A native virtual filesystem separates name resolution, mounts and file identity from individual filesystem formats. Native and hosted filesystem providers can serve it. Native ext4 storage, memory-backed filesystems, file-backed memory and provider-based read-only ISO9660/UDF have documented evidence. The Android implementation adds requirements for EROFS images, file-backed block devices, partition views and Android file labels.
