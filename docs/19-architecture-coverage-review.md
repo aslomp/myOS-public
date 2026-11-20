@@ -62,7 +62,7 @@ The status labels below indicate *documentation depth*, not whether every featur
 The root PNG illustrations are architectural explanations, not an accurate Boolean compatibility matrix. Their contents must be read with the documented evidence qualifications:
 
 1. **Filesystem filter compatibility:** the original Microsoft Filter Manager has recorded successful startup and selected minifilter I/O acceptance. Complete compatibility across arbitrary filters and filesystem operations remains unverified.
-2. **General Windows driver support:** WDM image hosting and real IRP tests are demonstrated; universal NT inbox driver, WDF, filesystem, USB and graphics driver operation is not.
+2. **General Windows driver support:** WDM image hosting and real IRP tests are demonstrated. The original Microsoft win32k family and dxgkrnl are now the Windows GUI driver path, without a `wingui` fallback; this does not prove universal NT inbox driver, WDF, filesystem, USB or stable graphics operation.
 3. **Fully unified filesystem caching:** a generic cache and shared file-backed objects exist, but some mmap/file-cache paths can still occupy separate frames.
 4. **All filesystem formats:** ext4 and selected ring-3 read-only providers have evidence. Named formats elsewhere in a conceptual storage diagram are not automatically implemented.
 5. **Android desktop:** authentic AOSP boot reached enforcing SELinux and original services, but the audited run stopped before framework and GUI startup.
@@ -91,7 +91,7 @@ Material next-level areas, should more public depth be required, include:
 - A subsystem-by-subsystem security and authority matrix with individual denial tests.
 - An exact ext4 crash consistency and unified caching analysis with workload measurements.
 - A complete native packet-path and container-networking explanation, including what each original network tool actually exercises.
-- An interactive desktop/input/display architecture, including ownership transitions and original Windows graphics dependencies.
+- An end-to-end Windows desktop/input/display acceptance matrix, including original win32k and DWM ownership, native scanout/presenter timing, session teardown and reproducibility across boots.
 - A reproducible hardware and hypervisor compatibility table distinguishing QEMU, Proxmox, Hyper-V and actual devices.
 - A structured evidence index linking every public status claim to a dated test or recorded original workload.
 
