@@ -52,7 +52,7 @@ myOS is an active engineering project, not a finished general-purpose operating 
 Documented development and validation include:
 
 - Linux user-space execution and substantial real-world workloads, including desktop and container infrastructure.
-- Original Windows services and applications running through native compatibility mechanisms.
+- Original Windows services, Explorer, Task Manager and DWM reached in selected boots. Windows GUI execution now uses the original Microsoft win32k family instead of a legacy `wingui` fallback; stable interactive desktop acceptance remains open.
 - Native multiprocessor scheduling, memory management and inter-process communication.
 - Device management and driver-hosting mechanisms.
 - Android integration and original AOSP user-space development.
