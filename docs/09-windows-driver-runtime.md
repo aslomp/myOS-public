@@ -78,6 +78,12 @@ As with any compatibility implementation, these specific tests do not establish 
 
 Other Windows driver classes, including framework-based, storage and graphics drivers, have separate compatibility and validation requirements.
 
+## Original Windows graphics driver family
+
+The `win32k.sys`, `win32kbase.sys`, `win32kfull.sys` and `dxgkrnl.sys` images are original Microsoft binaries in the Windows driver-host path, not reimplementations in `wingui`. The former `wingui` fallback has been removed. A single host serves the relevant global images; win32k selects its own per-session state using the calling process's session identity. Analysis of the installed images distinguished machine-global state, session-bound section views/data, process state and thread context. This does **not** establish verified second-session creation or teardown.
+
+DWM is an original Windows process and DirectComposition consumer. Its rendered scanout is passed through myOS's native display bridge/presenter; that presentation layer does not own NT GUI semantics. Recorded boots reached logon and desktop frames and ran Explorer/Task Manager, but DWM failures and a driver-host heap/fault deadlock have also occurred. Defensive heap checks and earlier presenter discovery are implementation changes awaiting complete boot validation. Compositor call identity/serialization, teardown/exit callouts and the `smss` class-38 win32k load remain explicit open items.
+
 ## Sources
 
 The review used technical implementation reviews and dated driver-host acceptance records. Historical design sections remain in some of these documents, so later implementation and measured-status sections take precedence.
