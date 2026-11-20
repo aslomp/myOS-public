@@ -23,7 +23,7 @@ The following table records representative demonstrated behavior, while current 
 |---|---|---|
 | Native kernel | SMP scheduling, virtual memory, process/thread identity, IPC, common object lifetime, filesystems and device authority form a functioning foundation | Whole-system reliability, long-duration stress, isolation and broad hardware validation continue |
 | Linux execution | Original applications, graphical environments and container workloads have run. Detailed Linux 7.2.11 x86-64 ABI conformance work covers filesystem, memory, thread, signal, credential, namespace, mount, event and debugging behavior | Many fine-grained behaviors and reference comparisons remain incomplete or divergent |
-| Windows execution | Original Windows processes, management tools and services execute; NT objects, ALPC, WNF, access tokens and driver interfaces have substantial implementations | Desktop completion, original drivers, service dependencies and concurrency still have open integration cases |
+| Windows execution | Original Microsoft services and interactive-session stages execute; selected boots reached `winlogon`, `userinit`, `explorer.exe`, `taskmgr.exe` and DWM, with Windows-drawn logon/desktop frames | Stable interactive desktop, DWM/DirectComposition behavior, session lifecycle, original driver coverage and reproducible end-to-end acceptance remain open |
 | Device and storage | Common block, filesystem, networking, display and ring-3 driver infrastructure; selected original drivers demonstrated | Controller, driver, crash recovery, I/O durability and hardware coverage vary |
 | Android integration | AOSP userspace integration on the common native foundation, including Android-specific interface work | Full framework, display and application lifecycle are not established by the documented acceptance evidence |
 | Cross-environment operation | One scheduler, resource model and hardware authority support multiple execution environments | Simultaneous workload, abuse, isolation and recovery matrices require continuing validation |
@@ -38,7 +38,11 @@ Coverage must separate actual syscall invocation, implementation branch executio
 
 ## Windows compatibility and evidence
 
-Original Windows applications, native services and selected driver workloads demonstrate important NT-compatible execution paths. The ongoing refinement of ALPC, WNF, handles, access tokens and graphics prerequisites targets precise object lifetime, error behavior and synchronization. A recorded driver or GUI success does not establish that every driver, desktop path or Windows release operates correctly. Known Windows GUI and acceptance-test issues remain open.
+Original Windows applications, native services and selected driver workloads demonstrate important NT-compatible execution paths. The ongoing refinement of ALPC, WNF, handles, access tokens and graphics prerequisites targets precise object lifetime, error behavior and synchronization. A recorded driver or GUI success does not establish that every driver, desktop path or Windows release operates correctly. Known Windows GUI and acceptance-test issues remain open. The legacy `wingui` compatibility path has been removed; the intended path executes the original Windows win32k family in one driver host, with session-specific state selected inside those binaries. This removes one architectural ambiguity but does not itself constitute a passed desktop test. Some selected boots reached Explorer and Task Manager, while others exhibited DWM faults or win32k-host hangs. Recent guard and display-presenter changes were not yet verified by a new boot at this review point.
+
+### Windows GUI acceptance gates
+
+A Windows graphics success report should distinguish (1) original win32k/dxgkrnl load, (2) logon and user profile completion, (3) Explorer/Task Manager process survival, (4) DWM frame production, (5) presentation of those frames on the host, and (6) sustained input, teardown and repeatable multicore operation. Observing one gate does not imply the next. Remaining architectural work includes the native `NtSetSystemInformation` class-38 driver-load route used by `smss`, multi-session startup, compositor-call correctness, orderly driver-host teardown and cross-environment clipboard operation.
 
 ## Shared native architecture
 
