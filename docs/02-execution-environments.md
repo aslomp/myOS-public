@@ -47,7 +47,9 @@ sequenceDiagram
   Note over App,MS: Availability varies by API and subsystem
 ```
 
-Windows service startup, native ALPC backing, GUI and original Windows driver integration are ongoing work. The existence of an NT-facing object or API is not sufficient evidence that every Windows dependency is operational.
+Windows service startup, native ALPC backing, GUI and original Windows driver integration remain active work. In the current Windows graphics path, the original Microsoft `win32k.sys`, `win32kbase.sys`, `win32kfull.sys` and `dxgkrnl.sys` execute in the Windows driver host. The old `wingui`/fake-win32k fallback has been removed: GUI calls are not supposed to be fulfilled by a parallel, myOS-built Win32 implementation. A functioning individual call or process is still not evidence that every Windows dependency is operational.
+
+The original win32k images serve the machine across sessions; their own session slots are selected using the caller's session identity. This is a measured architectural decision, not a claim that creating and tearing down multiple interactive sessions has passed acceptance. The actual session startup, DWM composition and window-system lifetime remain under test.
 
 ## Android: third environment, not a third kernel
 
