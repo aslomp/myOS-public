@@ -32,14 +32,14 @@ The Linux compatibility driver kit compiles selected **unmodified upstream Linux
 | VirtIO input (original input and VirtIO cores) | QEMU keyboard/mouse input passed the same 29/29 acceptance checks as the native alternative | Specific input devices and configuration |
 | VirtIO block and SCSI | Recorded ring-3 block/SCSI device acceptance through native storage interfaces | Requires the kernel to leave the device to ring 3 |
 | VirtIO network | QEMU guest gateway pings and a checksum-matched 4 MiB TCP transfer | Specific emulated NIC and network path |
-| Hyper-V VMBus and keyboard | Bus negotiation and console keyboard input demonstrated | Not general Hyper-V device coverage |
-| Hyper-V storvsc/netvsc | Built, linked and registered in the VMBus host | Storage I/O and network traffic not shown by the referenced QEMU VMBus tests |
-| Hyper-V HID, synthetic display, UIO and sockets | Linked to the relevant original subsystem cores | Some consumer paths or actual Hyper-V host tests remain absent |
-| Intel e1000e, AHCI, VirtIO RNG, i8042 | Driver kits/manifests or compiled images present | The driver-framework status table does **not** establish guest operation for these Linux variants |
-| Intel i801 SMBus, Hyper-V PCI bridge | Partial object/build support | Cannot be treated as operating device drivers |
+| Hyper-V VMBus and keyboard | Bus negotiation and console keyboard input documented; current end-to-end Hyper-V driver testing additionally confirmed by the project owner | Driver-specific evidence and host configuration should accompany a release claim |
+| Hyper-V storvsc/netvsc | Included in the project owner's confirmation that the Hyper-V driver set has been exercised | Older source audits list only registration because their QEMU VMBus fixture exposed no corresponding devices; these older fixtures are not a current blanket 'untested' verdict |
+| Hyper-V HID, synthetic display, UIO and sockets | Project owner reports Hyper-V driver testing completed | The available historical audit does not provide individual I/O traces for every consumer; retain this distinction for independent reproduction |
+| Intel e1000e, AHCI, VirtIO RNG, i8042 | Present in driver kits/manifests; the project owner additionally confirms VirtIO driver testing | The dated driver-framework table does not individually document guest execution for the e1000e, AHCI or i8042 Linux variants; the VirtIO RNG test should be cited separately when published |
+| Intel i801 SMBus, Hyper-V PCI bridge | Historical source records describe partial build/object support for these specific paths | Broad Hyper-V test confirmation should not be read as proof that the separately identified, unlinked virtual PCI bridge became an operating driver |
 | Original Linux ISO9660 and UDF filesystems | Hosted as filesystem providers in their own processes | Filesystem hosts, **not** entries in the hardware-driver catalog |
 
-The native kernel's VirtIO block/network/RNG drivers and native input/serial drivers are separate from the original Linux-source hosts. A normal boot selecting a kernel or native driver is not evidence that its Linux-source counterpart executed. Older device matrices may describe the selected QEMU default rather than every configurable acceptance run.
+The native kernel's VirtIO block/network/RNG drivers and native input/serial drivers are separate from the original Linux-source hosts. **Current project-owner confirmation (20 November 2026): the Hyper-V and VirtIO driver families have been tested, and a successful Alpine `apk` installation is cited as an end-to-end workload.** An `apk` installation alone does not identify every driver traversed; this is a project-level validation statement, not a newly reproduced per-driver trace in this documentation update. Historical source tables that marked a driver 'not run' refer to their own test date and environment and must not be treated as the present blanket status. For future reproducibility, record each family member, host type, I/O operation and acceptance artifact separately.
 
 ## Storage and filesystem architecture
 
