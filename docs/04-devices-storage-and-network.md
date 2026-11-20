@@ -51,7 +51,7 @@ The kernel owns native network interfaces, transport and packet processing; Linu
 
 ## Graphics
 
-The existing Linux desktop path uses a native user-space GPU/display service exposed through Linux DRM/KMS and a Wayland desktop. The Android implementation proposes an isolated virtual DRM output, original SurfaceFlinger and hardware composer, and a bridge that makes Android's output appear as a Wayland window.
+The existing Linux desktop path uses a native user-space GPU/display service exposed through Linux DRM/KMS and a Wayland desktop. Windows uses its original win32k/DWM/DirectComposition/dxgkrnl path for Windows GUI semantics and composition; the native display bridge and presenter transport the resulting scanout to the host desktop. They do not replace Windows window management. The Android implementation proposes an isolated virtual DRM output, original SurfaceFlinger and hardware composer, and a bridge that makes Android's output appear as a Wayland window.
 
 ```mermaid
 flowchart LR
@@ -110,6 +110,8 @@ The queue design supports multiple outstanding requests and out-of-order complet
 The network dataplane, interfaces and routing authority remain common. Linux netlink or filtering tools are presentations and configuration mechanisms for that underlying state. Windows network control and Android eBPF behavior should ultimately converge on native capabilities, but each API must preserve its own contractual semantics. The fact that network packets move does not prove that every network-management interface works.
 
 ### Original graphics composition
+
+For Windows, the separation is between **Windows-owned GUI and composition** (original Microsoft win32k, DWM and dxgkrnl), **myOS-owned driver hosting and hardware authority**, and **native scanout/presentation** to the surrounding desktop. Removal of the legacy `wingui` path also removed its boot-configured presenter hint; a subsequent source change discovers the presenter before the Windows driver phase. That change was code-reviewed but had not yet been confirmed in a fresh QEMU boot at the review point. DWM has drawn Windows logon and desktop frames in recorded runs, yet DWM faults and driver-host hangs have also been recorded; neither stable scanout nor a stable interactive desktop is universally established.
 
 Android's planned path uses original SurfaceFlinger and hardware composer against a virtual DRM/KMS device, then hands an output to a native display bridge and Wayland presenter. This preserves ownership of Android composition inside AOSP and of host desktop composition inside KWin. The graphical chain in the reviewed Android implementation is implemented but not end-to-end demonstrated.
 
