@@ -41,7 +41,7 @@ stateDiagram-v2
 
 ## Windows startup
 
-Original Microsoft session-management and service components participate in Windows initialization; myOS provides the NT-facing objects, process facilities and native transport required by those components. Their progress is important evidence of compatibility, but dependency chains such as Windows service control, RPC, driver loading, filesystem filters and interactive session creation cannot be assumed complete merely because early services start.
+Original Microsoft session-management and service components participate in Windows initialization; myOS provides the NT-facing objects, process facilities and native transport required by those components. Recorded boots have reached `winlogon`, `userinit` and `explorer.exe`, but later desktop survival and presentation are separate gates. The original win32k family is hosted in the Windows driver runtime; removing `wingui` did not remove the need to load these images through the correct Windows lifecycle. In particular, making `smss` initiate win32k loading through `NtSetSystemInformation` class 38 (`SystemExtendServiceTableInformation`) remains an open integration milestone, not an accepted boot result. Driver-host exit/teardown and session-specific startup are likewise still open. Dependency chains such as Windows service control, RPC, driver loading, filesystem filters and interactive session creation cannot be assumed complete merely because early services start.
 
 ## Android startup
 
