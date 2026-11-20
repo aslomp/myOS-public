@@ -60,7 +60,7 @@ myOS uses Microsoft binaries from a user-provided Windows installation, not Micr
 
 This matters because the goal is not to imitate the responses of those services. Their actual implementations perform important work. The original Windows subsystem infrastructure participates in process creation, side-by-side activation, service control and RPC. When a dependency is missing, that missing contract is investigated and added to the appropriate layer.
 
-The Windows startup work illustrates both progress and complexity. The repository documents authentic session and service components coming online, with RPC and service-control problems diagnosed through traces, breakpoints and observed NT behavior. The original Task Manager has progressed through substantial runtime and service initialization, but **a fully functioning Task Manager graphical session is not established by the reviewed evidence**.
+The Windows startup work illustrates both progress and complexity. Recorded boots reached authentic `winlogon`/`userinit` session startup and, in selected runs, original `explorer.exe`, `taskmgr.exe` and DWM with Windows-drawn logon and desktop frames. The legacy `wingui` and fake-win32k fallback have been removed: the original Microsoft win32k family and dxgkrnl now own Windows GUI behavior in the driver-host architecture. These observations are stronger than merely entering Task Manager's initialization, but **do not yet demonstrate a stable, fully interactive and repeatable Windows desktop**. DWM faults, host hangs, session lifecycle and correct scanout presentation are still under investigation.
 
 The difference matters. Executing the original services is a major capability; passing every service dependency and reaching a usable Windows desktop is a separate and larger claim.
 
@@ -168,7 +168,7 @@ The status infographic is most useful as a map of areas that already have implem
 | Linux execution | Alpine, Plasma/Wayland and documented k3s workload runs | Not every Linux API or configuration |
 | Native and hosted Linux drivers | VirtIO paths and selected Hyper-V support exercised | Not every catalogued driver or hardware platform |
 | DMA isolation | Intel VT-d and AMD-Vi implementations tested with emulated hardware | General physical-platform validation remains separate |
-| Windows applications and services | PE loading and original Microsoft system processes; substantial ALPC/RPC/service startup | Not a complete interactive Windows desktop or universal app support |
+| Windows applications and services | Original session startup; selected boots ran Explorer, Task Manager and DWM and produced Windows desktop frames via the original win32k family | Repeatable stable interactive desktop, display presentation and session teardown not yet established |
 | Windows WDM driver hosting | Executable WDK-built driver, IRP lifecycle and host-failure scenarios in repository acceptance reports | Not universal WDM/KMDF/WDDM compatibility |
 | Windows AFD/TCPIP | Own native-backed Windows .sys drivers tested through the driver host | Not the complete original Microsoft network driver stack |
 | Original Microsoft Filter Manager | Original component loads and connects to native filesystem operations | **Reported successful driver and minifilter acceptance tests** |
