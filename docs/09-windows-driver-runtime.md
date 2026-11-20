@@ -84,6 +84,23 @@ The `win32k.sys`, `win32kbase.sys`, `win32kfull.sys` and `dxgkrnl.sys` images ar
 
 DWM is an original Windows process and DirectComposition consumer. Its rendered scanout is passed through myOS's native display bridge/presenter; that presentation layer does not own NT GUI semantics. Recorded boots reached logon and desktop frames and ran Explorer/Task Manager, but DWM failures and a driver-host heap/fault deadlock have also occurred. Defensive heap checks and earlier presenter discovery are implementation changes awaiting complete boot validation. Compositor call identity/serialization, teardown/exit callouts and the `smss` class-38 win32k load remain explicit open items.
 
+## Original Windows driver execution: evidence matrix
+
+This matrix separates loaded original Microsoft or vendor images from myOS-built compatibility drivers and from NT object representations. It records **historical measured acceptance** in the source repository, not a claim that each image is active in every current boot.
+
+| Driver | Origin and role | Evidence and limitation |
+|---|---|---|
+| `fltmgr.sys` | Original Microsoft Filter Manager | Driver startup and native VFS-to-minifilter operations exercised in acceptance; not every minifilter contract proven |
+| `serial.sys` (+ `WMILIB.SYS` dependency) | Original Microsoft ISA serial driver | QEMU 16550 port echo test, 5/5 on 2026-11-03: port I/O, IRQ, open, control, read and write |
+| `e1i68x64.sys` | Original Intel e1000e NDIS miniport from installed Windows | 2026-10-16: 1 Gbit/s link, guest network interface, four gateway pings, 11 NIC checks; hardware-specific |
+| `win32k.sys`, `win32kbase.sys`, `win32kfull.sys`, `dxgkrnl.sys` | Original Microsoft GUI/graphics driver family | Executed during selected Windows GUI boots; rendering and client calls reached, while DWM and host stability remain open |
+| `tcpip.sys` and `afd.sys` compatibility images | myOS-built Windows-format drivers | Native-backed socket tests; **not** original Microsoft TCP/IP/AFD execution |
+| WDK test driver and minifilter test | Own test images | DriverEntry, IRPs, cancellation/restart and filter callbacks accepted in selected test configurations |
+| `lltdio.sys`, `MsLldp.sys`, `rspndr.sys` | Original Microsoft NDIS protocol drivers studied | Imports and NDIS helper coverage investigated; the protocol binding/send/receive acceptance path is **not proven** merely by those helpers |
+| `Npfs`, CNG, KSecDD, nsiproxy names | NT personality projections or native-backed services | Visibility in the object namespace is **not** original `.sys` image execution |
+
+The Windows NDIS **miniport** proof for e1000e does not imply an implemented general NDIS **protocol-driver** binding layer. Similarly, loading an image, returning from DriverEntry, binding hardware, transmitting real frames and sustaining a complete Windows GUI session are distinct acceptance levels.
+
 ## Sources
 
 The review used technical implementation reviews and dated driver-host acceptance records. Historical design sections remain in some of these documents, so later implementation and measured-status sections take precedence.
