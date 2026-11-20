@@ -36,7 +36,7 @@ A native console represents a controlled byte stream. Linux terminal semanticsâ€
 
 A native display service can own the physical or virtual display resource and present controlled surfaces or buffers to clients. A Linux graphics consumer may see DRM/KMS-style interfaces while the ownership of actual hardware stays with the native service. Input drivers can likewise publish neutral events rather than injecting Windows or Linux-specific structures into the hardware layer.
 
-This layering explains why a user-mode GPU driver can participate in a Linux desktop without making the Linux personality responsible for all graphics resources.
+This layering explains why a user-mode GPU driver can participate in a Linux desktop without making the Linux personality responsible for all graphics resources. It also explains the Windows path: original Windows win32k/DWM/dxgkrnl components own Windows GUI and composition, while the native driver and presentation services deliver their output. Presenter discovery must precede starting the Windows display bridge in the driver phase; a fix to that ordering has been committed, with a fresh end-to-end boot test still required.
 
 The reviewed design covers VirtIO graphics and a Wayland/Plasma path; it does not establish complete WDDM support or a fully running Android graphical framework.
 
