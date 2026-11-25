@@ -2,6 +2,19 @@
 
 myOS is an experimental x86-64 operating system. Start with a disposable virtual machine or a dedicated USB drive. Do not use a disk containing important data.
 
+> [!WARNING]
+> **Physical hardware and data-loss risk**
+>
+> Do not boot the installation ISO directly on a normal computer containing valuable data. The ISO installer automatically selects a supported target disk and may overwrite its partition table and filesystems without interactive confirmation. Its existing checks are not a guarantee against accidental data loss.
+>
+> QEMU/KVM, Proxmox and Hyper-V with disposable virtual disks are the recommended evaluation environments. Direct installation onto internal physical disks is not recommended at this stage.
+>
+> Booting a dedicated USB drive prepared with `mkusb.sh` is experimental. It avoids the ISO's automatic installation workflow, but does not guarantee that internal disks are protected from writes. Back up important data and physically disconnect internal storage where practical before testing.
+>
+> Experimental kernel and driver code can cause filesystem corruption, incorrect DMA operations, system freezes, device malfunction and firmware or power-management problems. Permanent hardware damage is less likely than data loss or system instability, but cannot be ruled out. Ring-3 driver isolation and Secure Boot do not eliminate these risks.
+>
+> Use dedicated test hardware and never rely on this preview for production workloads or irreplaceable data.
+
 ## 1. Obtain the ISO
 
 Check the [release page](https://github.com/aslomp/myOS-public/releases) for the official installation ISO, referred to below as `myos.iso`. The architecture repository does not contain the operating system sources. If no ISO is available, these instructions describe the intended release workflow.
