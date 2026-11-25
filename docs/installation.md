@@ -26,7 +26,7 @@ Create a disposable VM:
 | Display | VirtIO graphics, where supported |
 | CD/DVD | Official myOS ISO |
 
-For the Proxmox configuration above, use VirtIO Block as the installer's target disk rather than VirtIO SCSI, SATA or IDE. This recommendation does not apply to Hyper-V's supported synthetic SCSI controller. Disable Secure Boot on the test VM if the image is not trusted by its firmware.
+For the Proxmox configuration above, use VirtIO Block as the installer's target disk rather than VirtIO SCSI, SATA or IDE. This recommendation does not apply to Hyper-V's supported synthetic SCSI controller. Secure Boot may remain enabled when the firmware trusts the release bootloader.
 
 **Warning: the installer automatically repartitions the first VirtIO block disk. It does not offer an interactive disk-selection or confirmation screen. Attach only an empty disposable target disk.**
 
@@ -61,7 +61,7 @@ Hyper-V SCSI storage is supported by myOS. Create a Generation 2 VM with the fol
 | Setting | Recommendation |
 | --- | --- |
 | Generation | 2 (UEFI) |
-| Secure Boot | Disabled |
+| Secure Boot | May remain enabled (with compatible firmware trust configuration) |
 | Memory | 2048 MiB minimum; more for additional environments |
 | Processors | 4 virtual processors recommended |
 | System disk | Empty VHDX attached to the SCSI controller |
@@ -219,7 +219,7 @@ Once a valid `/android/myos-install.manifest` exists on the installed myOS root,
 
 ## 6. Troubleshooting
 
-- **ISO does not boot:** check x86-64 UEFI and firmware boot settings.
+- **ISO does not boot:** check x86-64 UEFI, firmware boot settings and, if Secure Boot is enabled, bootloader trust.
 - **No installation disk:** use an empty VirtIO Block disk on QEMU/Proxmox or a supported Hyper-V SCSI VHDX with the matching release. Check the release's installer disk-selection behavior.
 - **USB root volume missing:** verify the media, xHCI controller and usb-storage bundle. Check MYOS-USB.txt on the EFI partition.
 - **No graphical desktop:** the release may support only limited display hardware or software rendering. Use the console to diagnose startup.
