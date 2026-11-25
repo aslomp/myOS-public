@@ -61,6 +61,10 @@ Capabilities differ in maturity. Implemented functionality, validated workloads,
 
 **[Read the implementation evidence and known limitations](docs/05-validation-and-roadmap.md)**
 
+## Installation
+
+[Installation guide — ISO, USB, Windows and Android](docs/installation.md)
+
 ## Technical documentation
 
 The repository contains detailed architectural explanations, diagrams, design decisions, implementation observations and validation results.
