@@ -169,15 +169,39 @@ This requires the Windows runtime to be active and a suitable graphical session 
 
 Android is also optional and runs as a separate user-space environment on the native myOS kernel, not as a guest kernel. The current installer prepares a release-pinned AOSP/Cuttlefish image, its ramdisks, partition images and the myOS configuration layer.
 
-**Availability:** unlike the Windows installer, the current Android preparation tool is a host-side development utility; a standalone public Android installer is not yet established in the ISO. The following is the existing preparation workflow, applicable when the project supplies the matching Android installer and its dependencies. Do not assume that extracting mkusb.sh also provides them.
+### Install from the running myOS system
 
-On a Linux preparation host, the installer supports:
+On releases that include the Android installer, boot myOS, open its Linux shell as an administrator and run:
 
 ```sh
-tools/install-android.sh --dir /path/to/target-root/android --verify
+install-android --verify
 ```
 
-Here target-root must be the actual root filesystem of the installed myOS Linux environment, made available offline (not the host's root directory or the EFI partition). Use a writable target with adequate free space. The installer downloads and verifies the pinned Android image and writes the installation manifest last. Its separate `--disk` mode expects a specific development volume layout and must not be used indiscriminately on a USB or ISO-installed GPT disk.
+The command installs the required Alpine tools, downloads the release-pinned Android image, checks its size and SHA-256, prepares the Android files and installs them under `/android`. An Internet connection and a writable target filesystem are required. Allow at least 8 GiB of free temporary workspace (by default `/var/tmp/myos-android`) plus space for the installed environment. For a larger Android user-data image, use `--userdata-mb 2048`, for example. Existing user-data images are preserved.
+
+Reboot myOS when installation completes.
+
+### Alternative: prepare Android on a Linux host using the ISO
+
+Extract the matching installer and its dependencies from the release ISO:
+
+```sh
+ISO="$(realpath myos.iso)"
+mkdir -p myos-android-tools
+xorriso -osirrox on -indev "$ISO" \
+  -extract /tools myos-android-tools/tools
+cd myos-android-tools
+sudo apt install bash curl unzip python3 e2fsprogs coreutils findutils util-linux
+```
+
+The kit includes a prebuilt EROFS extractor; Rust, Cargo and the private myOS source tree are not required. Set a private working directory outside the extracted kit and your home directory, with sufficient free space:
+
+```sh
+sudo env ANDROID_ROOT=/var/tmp/myos-android \
+  bash tools/install-android.sh --dir /path/to/target-root/android --verify
+```
+
+Replace target-root with the actual offline, writable myOS root filesystem. Do not point it at the host's root or the EFI partition. The installer's separate `--disk` mode expects a specific development volume layout and is not suitable for arbitrary USB or ISO-installed GPT disks.
 
 Once a valid `/android/myos-install.manifest` exists on the installed myOS root, boot myOS to start the Android environment. Android applications and ADB depend on the release's Android integration and networking configuration. Full Android boot and universal APK compatibility are not guaranteed.
 
