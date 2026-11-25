@@ -9,7 +9,7 @@ myOS is an experimental x86-64 operating system. Start with a disposable virtual
 >
 > QEMU/KVM, Proxmox and Hyper-V with disposable virtual disks are the recommended evaluation environments. Direct installation onto internal physical disks is not recommended at this stage.
 >
-> Booting a dedicated USB drive prepared with `mkusb.sh` is experimental. It avoids the ISO's automatic installation workflow, but does not guarantee that internal disks are protected from writes. Back up important data and physically disconnect internal storage where practical before testing.
+> **The prepared USB route is the recommended way to evaluate myOS on physical hardware.** Unlike the installation ISO, it boots an already installed system and does not grant Linux general raw-disk access. The boot policy selects the USB system and data volumes by filesystem UUID and restricts Linux block-device authority to the selected data partition. Internal disks are not made available to ordinary Linux applications, including Linux root, through that authority. This is a deliberate protection against accidental writes, not a guarantee against defects in privileged native services or drivers. Back up important data before physical testing.
 >
 > Experimental kernel and driver code can cause filesystem corruption, incorrect DMA operations, system freezes, device malfunction and firmware or power-management problems. Permanent hardware damage is less likely than data loss or system instability, but cannot be ruled out. Ring-3 driver isolation and Secure Boot do not eliminate these risks.
 >
@@ -142,7 +142,7 @@ sudo bash mkusb.sh --iso "$ISO" --device /dev/sdX --drivers ./drivers
 sudo bash mkusb.sh verify --target /dev/sdX
 ```
 
-Review the confirmation and do not bypass the device checks. The default USB layout has a 1024 MiB EFI partition, a 6 GiB system partition and a separate data partition using the remaining space. For larger workloads choose a larger system partition using `--system-size` and a sufficiently large drive. Windows extraction requires substantial additional free space on its target filesystem; a large data partition alone does not guarantee that space.
+The USB utility checks that the target is a whole writable device, rejects detected host system disks and active swap disks, refuses fixed non-USB disks by default, and refuses mounted targets unless explicitly requested to unmount them. It requires confirmation of the exact device path before destructive writes. The `--check-device` operation does not write anything. Review the confirmation and do not bypass the device checks. The default USB layout has a 1024 MiB EFI partition, a 6 GiB system partition and a separate data partition using the remaining space. For larger workloads choose a larger system partition using `--system-size` and a sufficiently large drive. Windows extraction requires substantial additional free space on its target filesystem; a large data partition alone does not guarantee that space.
 
 To create a disk image instead of writing a physical drive:
 
@@ -151,7 +151,7 @@ bash mkusb.sh --iso "$ISO" --image stick.img --size 16G --drivers ./drivers
 bash mkusb.sh verify --target stick.img
 ```
 
-Boot the target computer using its one-time UEFI USB boot menu. The system runs from the prepared USB disk; it does not install onto the internal disk. Hardware support varies by release; an xHCI USB controller is recommended.
+Boot the target computer using its one-time UEFI USB boot menu. The system runs from the prepared USB disk; it does not install onto the internal disk. Its normal runtime policy does not enable `disk-admin`; the Linux root is selected by UUID and raw block access is narrowed to the USB data partition. If that data volume cannot be found, Linux receives no storage authority rather than unrestricted access. Hardware support varies by release; an xHCI USB controller is recommended.
 
 ## 4. Install the Windows environment
 
