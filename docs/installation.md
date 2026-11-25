@@ -153,6 +153,20 @@ bash mkusb.sh verify --target stick.img
 
 Boot the target computer using its one-time UEFI USB boot menu. The system runs from the prepared USB disk; it does not install onto the internal disk. Its normal runtime policy does not enable `disk-admin`; the Linux root is selected by UUID and raw block access is narrowed to the USB data partition. If that data volume cannot be found, Linux receives no storage authority rather than unrestricted access. Hardware support varies by release; an xHCI USB controller is recommended.
 
+### Physical hardware tested
+
+The USB boot route has been exercised on the developer's physical ASUS laptop, not only in virtual machines. The recorded test hardware includes:
+
+| Component | Tested machine |
+| --- | --- |
+| Platform | ASUS x86-64 laptop, AMD Renoir/Cezanne platform |
+| Integrated graphics | AMD Radeon Renoir, PCI ID `1002:1636` |
+| Discrete graphics | NVIDIA GeForce GTX 1660 Ti Mobile (present; not an acceleration claim) |
+| Wired networking | Realtek RTL8111/8168 family |
+| USB controller | AMD xHCI |
+
+Bare-metal UEFI boot from USB, wired networking and SSH have been demonstrated. On 15 November 2026, the original AMDGPU driver hosted by myOS produced a visible 1920 × 1080 Plasma desktop; touchpad and USB mouse input were also confirmed. This is evidence for that hardware configuration, not a claim of universal laptop support or hardware-accelerated Mesa rendering. Exact CPU model, RAM capacity and laptop model are not confirmed here.
+
 ## 4. Install the Windows environment
 
 Windows is optional. myOS runs original Microsoft user-space components on its own kernel; it does not install or boot a separate Windows kernel. Microsoft installation media are not distributed with myOS. Obtain your own authorized x86-64 Windows installation media and comply with its licensing terms.
